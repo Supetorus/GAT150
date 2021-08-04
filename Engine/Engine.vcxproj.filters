@@ -65,6 +65,12 @@
     <ClCompile Include="Core\FileSystem.cpp">
       <Filter>Source\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Renderer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Texture.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\EventSystem.h">
@@ -111,6 +117,15 @@
     </ClInclude>
     <ClInclude Include="Core\FileSystem.h">
       <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Renderer.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Texture.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Resource.h">
+      <Filter>Source\Resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
