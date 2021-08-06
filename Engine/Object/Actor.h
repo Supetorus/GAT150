@@ -7,16 +7,18 @@
 
 namespace nc
 {
-	//class Scene;
+	class Scene;
+	class Texture;
+	class Renderer;
 
 	class Actor : public Object
 	{
 	public:
 		Actor() {}
-		Actor(const Transform& transform) : transform{ transform } {}
+		Actor(const Transform& transform, std::shared_ptr<Texture> texture = {}) : transform{ transform }, texture{ texture } {}
 
 		virtual void Update(float dt);
-		virtual void Draw();
+		virtual void Draw(Renderer* renderer);
 		virtual void Intitialize();
 
 		virtual void OnCollision(Actor* actor) {}
@@ -30,6 +32,8 @@ namespace nc
 	public:
 		bool destroy{ false };
 		std::vector<std::string> tags;
+
+		std::shared_ptr<Texture> texture;
 
 		Transform transform;
 		Scene* scene{ nullptr };

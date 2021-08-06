@@ -12,11 +12,13 @@ namespace nc
 
 	class Actor;
 
+	class Renderer;
+
 	class Scene
 	{
 	public:
 		void Update(float dt);
-		void Draw();
+		void Draw(Renderer* renderer);
 
 		void AddActor(std::unique_ptr <Actor> actor);
 		void RemoveActor(Actor* actor);

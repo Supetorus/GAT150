@@ -1,5 +1,6 @@
 #pragma once
 #include "Resource/Resource.h"
+#include "Math/Vector2.h"
 #include <SDL.h>
 
 namespace nc
@@ -8,6 +9,8 @@ namespace nc
 	{
 	public:
 		bool Load(const std::string& filename, void* data) override;
+
+		Vector2 GetSize() const;
 
 		friend class Renderer;
 

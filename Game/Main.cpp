@@ -10,13 +10,17 @@ int main(int, char**)
 	engine.Startup();
 
 	engine.Get<nc::Renderer>()->Create("GAT150", 800, 600);
-	
-	std::cout << nc::GetFilePath() << std::endl;
 	nc::SetFilePath("../Resources");
-	std::cout << nc::GetFilePath() << std::endl;
+
+	nc::Scene scene;
+	scene.engine = &engine;
 
 	std::shared_ptr<nc::Texture> texture =
 		engine.Get<nc::ResourceSystem>()->Get<nc::Texture>("sf2.png", engine.Get<nc::Renderer>());
+
+	nc::Transform transform{ nc::Vector2{400, 300}, 0.0f, 1.0f };
+	std::unique_ptr<nc::Actor> actor = std::make_unique<nc::Actor>(transform, texture);
+	scene.AddActor(std::move(actor));
 
 	// Game loop
 	bool quit = false;
@@ -31,10 +35,14 @@ int main(int, char**)
 			break;
 		}
 
+		engine.Update(0);
+		scene.Update(0);
+
 		engine.Get<nc::Renderer>()->BeginFrame();
 
-		nc::Vector2 position{ 300, 400 };
-		engine.Get<nc::Renderer>()->Draw(texture, position);
+		scene.Draw(engine.Get<nc::Renderer>());
+		//nc::Vector2 position{ 300, 400 };
+		//engine.Get<nc::Renderer>()->Draw(texture, position, 45.0f, nc::Vector2{ 2, 1 });
 
 		engine.Get<nc::Renderer>()->EndFrame();
 
