@@ -10,7 +10,7 @@ namespace nc
 		keyboardState.resize(numKeys);
 
 		// copy sdl keyboard state to keyboard state vector
-		std::copy(keyboardStateSDL, keyboardStateSDL + numKeys, keyboardState);
+		std::copy(keyboardStateSDL, keyboardStateSDL + numKeys, keyboardState.begin());
 
 		// set previous keyboard state to keyboard state
 		prevKeyboardState = keyboardState;
@@ -27,7 +27,7 @@ namespace nc
 		prevKeyboardState = keyboardState;
 		// copy the current SDL keyboard state to keyboard state
 		const Uint8* keyboardStateSDL = SDL_GetKeyboardState(nullptr);
-		std::copy(keyboardStateSDL, keyboardStateSDL + numKeys, keyboardState);
+		std::copy(keyboardStateSDL, keyboardStateSDL + numKeys, keyboardState.begin());
 
 	}
 
