@@ -38,6 +38,8 @@ int main(int, char**)
 		engine.Update(0);
 		scene.Update(0);
 
+		quit = (engine.Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
+
 		engine.Get<nc::Renderer>()->BeginFrame();
 
 		scene.Draw(engine.Get<nc::Renderer>());

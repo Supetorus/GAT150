@@ -2,6 +2,7 @@
 
 // Systems
 #include "Audio/AudioSystem.h"
+#include "Input/InputSystem.h"
 
 // Core
 #include "Core/FileSystem.h"
