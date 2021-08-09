@@ -28,7 +28,7 @@ int main(int, char**)
 	// Game loop
 	bool quit = false;
 	SDL_Event event;
-	float quitTime = engine.time.time + 3.0f;
+	float quitTime = engine.time.time + 300.0f;
 	while (!quit)
 	{
 		SDL_PollEvent(&event);
@@ -39,15 +39,22 @@ int main(int, char**)
 			break;
 		}
 
+
 		// Update
 		engine.Update();
 		scene.Update(engine.time.deltaTime);
 
 		//std::cout << engine.time.time << std::endl;
-		std::cout << engine.time.time << " " << quitTime << std::endl;
+		//std::cout << engine.time.time << " " << quitTime << std::endl;
 		if (engine.time.time >= quitTime) quit = true;
 		engine.time.timeScale = 0.1f;
-		quit = (engine.Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
+		if (!quit) quit = (engine.Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
+
+		nc::Vector2 position = engine.Get<nc::InputSystem>()->GetMousePosition();
+		if (engine.Get<nc::InputSystem>()->GetButtonState((int)nc::InputSystem::eMouseButton::Left) == nc::InputSystem::eKeyState::Pressed)
+		{
+			std::cout << position.x << " " << position.y << std::endl;
+		}
 
 		// Draw
 		engine.Get<nc::Renderer>()->BeginFrame();

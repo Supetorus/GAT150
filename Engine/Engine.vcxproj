@@ -183,6 +183,7 @@
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Framework\EventSystem.cpp" />
+    <ClCompile Include="Graphics\ParticleSystem.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Input\InputSystem.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Framework\EventSystem.h" />
     <ClInclude Include="Framework\System.h" />
+    <ClInclude Include="Graphics\ParticleSystem.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Graphics\Texture.h" />
     <ClInclude Include="Input\InputSystem.h" />
