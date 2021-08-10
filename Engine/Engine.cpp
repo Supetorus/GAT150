@@ -5,7 +5,7 @@ namespace nc
 {
 	void Engine::Startup()
 	{
-		//systems.push_back(std::make_unique<AudioSystem>());
+		systems.push_back(std::make_unique<AudioSystem>());
 		systems.push_back(std::make_unique<EventSystem>());
 		systems.push_back(std::make_unique<ResourceSystem>());
 		systems.push_back(std::make_unique<Renderer>());
