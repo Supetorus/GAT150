@@ -58,14 +58,16 @@ int main(int, char**)
 		nc::Vector2 position = engine.Get<nc::InputSystem>()->GetMousePosition();
 		if (engine.Get<nc::InputSystem>()->GetButtonState((int)nc::InputSystem::eMouseButton::Left) == nc::InputSystem::eKeyState::Pressed)
 		{
-			std::cout << position.x << " " << position.y << std::endl;
+			//std::cout << position.x << " " << position.y << std::endl;
 			engine.Get<nc::AudioSystem>()->PlayAudio("explosion", 1, nc::RandomRange(0.2f, 2.0f));
+			//Create Particles
 			channel.SetPitch(nc::RandomRange(0.2f, 2.0f));
 		}
 
 		// Draw
 		engine.Get<nc::Renderer>()->BeginFrame();
 		scene.Draw(engine.Get<nc::Renderer>());
+		engine.Draw(engine.Get<nc::Renderer>());
 		engine.Get<nc::Renderer>()->EndFrame();
 	}
 

@@ -35,8 +35,8 @@ namespace nc
 		Uint32 buttons = SDL_GetMouseState(&x, &y);
 		mousePosition = nc::Vector2{ x, y };
 		mouseButtonState[0] = buttons & SDL_BUTTON_LMASK;
-		mouseButtonState[1] = buttons & SDL_BUTTON_LMASK;
-		mouseButtonState[2] = buttons & SDL_BUTTON_LMASK;
+		mouseButtonState[1] = buttons & SDL_BUTTON_MMASK;
+		mouseButtonState[2] = buttons & SDL_BUTTON_RMASK;
 	}
 
 	InputSystem::eKeyState InputSystem::GetKeyState(int id)

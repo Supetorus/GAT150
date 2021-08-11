@@ -19,6 +19,5 @@ namespace nc
 
 	private:
 		FMOD::Channel* channel{ nullptr };
-
 	};
 }
