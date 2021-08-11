@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include <SDL.h>
 #include <iostream>
 #include <string>
 
@@ -21,6 +22,17 @@ namespace nc
 		Color operator + (const Color& color) { return {r + color.r, g + color.g, b + color.b}; }
 		Color operator - (const Color& color) { return {r - color.r, g - color.g, b - color.b}; }
 		Color operator * (float s) const { return { r * s, g * s , b * s }; };
+		operator SDL_Color() const
+		{
+			SDL_Color color;
+			color.r = static_cast<Uint8>(r * 255);
+			color.g = static_cast<Uint8>(g * 255);
+			color.b = static_cast<Uint8>(b * 255);
+			color.a = 255;
+
+			return color;
+		}
+
 		operator std::uint32_t() const { return ToRGB(); }
 
 		std::uint32_t ToRGB() const

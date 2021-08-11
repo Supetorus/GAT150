@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include <SDL_image.h>
 #include <iostream>
+#include <cassert>
 
 namespace nc
 {
@@ -30,6 +31,27 @@ namespace nc
 		SDL_Point point;
 		SDL_QueryTexture(texture, nullptr, nullptr, &point.x, &point.y);
 		return Vector2{point.x, point.y};
+	}
+
+	Texture::Texture(Renderer* renderer)
+	{
+		assert(renderer);
+		this->renderer = renderer->renderer;
+	}
+
+	bool Texture::Create(SDL_Surface* surface)
+	{
+		assert(surface);
+		// create texture
+		texture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+		if (texture == nullptr)
+		{
+			std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+			return false;
+		}
+
+		return true;
 	}
 }
 

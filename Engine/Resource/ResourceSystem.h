@@ -18,6 +18,8 @@ namespace nc
 		template <typename T>
 		std::shared_ptr<T> Get(const std::string& name, void* data = nullptr);
 
+		void Add(const std::string& name, std::shared_ptr<nc::Resource> resource);
+
 	private:
 		std::map<std::string, std::shared_ptr<Resource>> resources;
 	};
@@ -25,17 +27,22 @@ namespace nc
 	template<typename T>
 	inline std::shared_ptr<T> ResourceSystem::Get(const std::string& name, void* data)
 	{
-		if (resources.find(name) != resources.end())
+		if (resources.find(string_tolower(name)) != resources.end())
 		{
-			return std::dynamic_pointer_cast<T>(resources[name]);
+			return std::dynamic_pointer_cast<T>(resources[string_tolower(name)]);
 		}
 		else
 		{
 			std::shared_ptr resource = std::make_shared<T>();
 			resource->Load(name, data);
-			resources[name] = resource;
+			resources[string_tolower(name)] = resource;
 
 			return resource;
 		}
+	}
+
+	inline void ResourceSystem::Add(const std::string& name, std::shared_ptr<nc::Resource> resource)
+	{
+		resources[string_tolower(name)] = resource;
 	}
 }
