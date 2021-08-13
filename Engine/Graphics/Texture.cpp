@@ -8,6 +8,7 @@ namespace nc
 {
 	bool Texture::Load(const std::string& filename, void* data)
 	{
+		assert(data);
 		renderer = static_cast<Renderer*>(data)->renderer;
 		// load surface
 		SDL_Surface* surface = IMG_Load(filename.c_str());

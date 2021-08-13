@@ -57,7 +57,6 @@ namespace nc
 				particle->position = position;
 				particle->prevPosition = position;
 				particle->texture = texture;
-
 				particle->rotation = rotation;
 				particle->direction = direction + RandomRange(-angleRange / 2, angleRange / 2);
 				particle->speed = RandomRange(minSpeed, maxSpeed);

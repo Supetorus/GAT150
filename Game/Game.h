@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include "Actors/Player.h"
 #include "Math/Transform.h"
 #include "Math/Random.h"
 #include <fstream>
@@ -25,6 +26,10 @@ public:
 	void Draw();
 
 	bool isQuit() { return quit; }
+
+	int GetScreenWidth() { return screenWidth; }
+	int GetScreenHeight() { return screenHeight; }
+
 
 private:
 	void UpdateTitle(float dt);
@@ -52,6 +57,9 @@ private:
 	float fireTimer{ 0 };
 	float fireRate{ 0.1f }; // time between shots
 	float screenTimer = 0;
+
+	int screenWidth = 800;
+	int screenHeight = 600;
 
 	nc::AudioChannel musicChannel;
 	std::shared_ptr<nc::Texture> particleTexture;

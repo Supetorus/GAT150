@@ -7,7 +7,6 @@
 
 namespace nc
 {
-	
 	class InputSystem : public System
 	{
 	public:
@@ -50,6 +49,5 @@ namespace nc
 		Vector2 mousePosition;
 		std::array<Uint8, 3> mouseButtonState;
 		std::array<Uint8, 3> prevMouseButtonState;
-		
 	};
 }

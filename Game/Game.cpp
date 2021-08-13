@@ -5,7 +5,7 @@ void Game::Initialize()
 	// Create Engine
 	engine = std::make_unique<nc::Engine>();
 	engine->Startup();
-	engine->Get<nc::Renderer>()->Create("GAT150", 800, 600);
+	engine->Get<nc::Renderer>()->Create("GAT150", screenWidth, screenHeight);
 	engine->time.timeScale = 1.0f;
 
 	// Create Scene
@@ -24,15 +24,6 @@ void Game::Initialize()
 	engine->Get<nc::AudioSystem>()->AddAudio("destroy", "destroy.wav");
 	engine->Get<nc::AudioSystem>()->AddAudio("destroy_1", "destroy_1.wav");
 	engine->Get<nc::AudioSystem>()->AddAudio("rocket", "rocket.wav");
-
-	// Texture Stuff
-	std::shared_ptr<nc::Texture> texture =
-		engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("sf2.png", engine->Get<nc::Renderer>());
-
-	// Adding the spinning dude to the screen
-	nc::Transform transform{ nc::Vector2{400, 300}, 0.0f, 1.0f };
-	std::unique_ptr<nc::Actor> actor = std::make_unique<nc::Actor>(transform, texture);
-	scene->AddActor(std::move(actor));
 
 	int size = 16;
 	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("fonts/times.ttf", &size);
@@ -70,6 +61,8 @@ void Game::Shutdown()
 
 void Game::Update()
 {
+	engine->Update();
+
 	float dt = engine->time.deltaTime;
 	stateTimer += dt;
 	audioTimer += dt;
@@ -120,7 +113,6 @@ void Game::Update()
 
 
 	// Update
-	engine->Update();
 	scene->Update(engine->time.deltaTime);
 
 	if (!quit) quit = (engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
@@ -128,6 +120,7 @@ void Game::Update()
 
 void Game::Draw()
 {
+	engine->Get<nc::Renderer>()->BeginFrame();
 	// center lines for alignment
 	//graphics.DrawLine(nc::WindowInfo::maxWidth / 2, 0, nc::WindowInfo::maxWidth / 2, nc::WindowInfo::maxHeight);
 	//graphics.DrawLine(0, nc::WindowInfo::maxHeight / 2, nc::WindowInfo::maxWidth, nc::WindowInfo::maxHeight / 2);
@@ -193,11 +186,10 @@ void Game::Draw()
 		break;
 	}
 
-	scene->Draw(engine->Get<nc::Renderer>());
 	engine->Draw(engine->Get<nc::Renderer>());
+	scene->Draw(engine->Get<nc::Renderer>());
 
 	// Draw
-	engine->Get<nc::Renderer>()->BeginFrame();
 	scene->Draw(engine->Get<nc::Renderer>());
 
 	nc::Vector2 position = engine->Get<nc::InputSystem>()->GetMousePosition();
@@ -290,12 +282,19 @@ void Game::OnPlayerDead(const nc::Event& event)
 
 void Game::SpawnPlayer()
 {
-	//std::unique_ptr<Player> player = std::make_unique<Player>(
-	//	nc::Transform{ nc::Vector2{0, 0}, 0.0f, 3.0f }, // position, rotation, scale
-	//	engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("pointy_box.txt"), // shape
-	//	20.0f);
-	//std::cout << scene->ActorCount() << std::endl;
-	//if (scene->ActorCount() > 0) player->transform.position = scene->SafeLocation(player->GetRadius(), 500.0f);
-	//else player->transform.position = { nc::WindowInfo::maxWidth / 2, nc::WindowInfo::maxHeight / 2 };
-	//scene->AddActor(std::move(player));
+	// Texture Stuff
+	std::shared_ptr<nc::Texture> texture =
+		engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("sf2.png", engine->Get<nc::Renderer>());
+
+	// Adding the dude to the screen
+	nc::Transform transform{ nc::Vector2{400, 300}, 0.0f, 1.0f };
+	std::unique_ptr<nc::Actor> actor = std::make_unique<nc::Actor>(transform, texture);
+	scene->AddActor(std::move(actor));
+
+	std::unique_ptr<Player> player = std::make_unique<Player>(
+		nc::Transform{ nc::Vector2{0, 0}, 0.0f, 3.0f }, // position, rotation, scale
+		texture);
+	if (scene->ActorCount() > 0) player->transform.position = scene->SafeLocation(player->GetRadius(), 500.0f);
+	else player->transform.position = { screenWidth / 2, screenHeight / 2 };
+	scene->AddActor(std::move(player));
 }
