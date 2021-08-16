@@ -24,7 +24,7 @@ namespace nc
 			{
 				particle.lifetime -= dt;
 				particle.isActive = particle.lifetime > 0;
-				particle.prevPosition = particle.position;
+				//particle.prevPosition = particle.position;
 				particle.direction += particle.rotation;
 				particle.velocity = Vector2{ std::cos(particle.direction), std::sin(particle.direction)} * particle.speed * dt;
 				particle.position += particle.velocity;
@@ -39,7 +39,7 @@ namespace nc
 		{
 			if (particle.isActive)
 			{
-				
+				renderer->Draw(particle.texture, particle.position, particle.direction, 0.1f);
 			}
 		}
 	}
@@ -59,7 +59,9 @@ namespace nc
 				particle->texture = texture;
 				particle->rotation = rotation;
 				particle->direction = direction + RandomRange(-angleRange / 2, angleRange / 2);
+				//particle->direction = direction;
 				particle->speed = RandomRange(minSpeed, maxSpeed);
+				//particle->speed = maxSpeed;
 			}
 		}
 	}

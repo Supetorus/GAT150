@@ -21,6 +21,7 @@ namespace nc
 
 	float RandomRange(float min, float max)
 	{
+		if (min > max) std::swap(min, max);
 		std::uniform_real_distribution<float> distribution{ min, max };
 		return distribution(g_engine);
 	}

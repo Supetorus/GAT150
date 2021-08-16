@@ -72,7 +72,13 @@ namespace nc
 	{
 		nc::Vector2 size = texture->GetSize();
 		size = size * transform.scale;
-		SDL_Rect dest{ (int)transform.position.x, (int)transform.position.y, static_cast<int>(size.x), static_cast<int>(size.y) };
+		Vector2 newPosition = transform.position - (size * 0.5f);
+
+		SDL_Rect dest;
+		dest.x = static_cast<int>(newPosition.x);
+		dest.y = static_cast<int>(newPosition.y);
+		dest.w = static_cast<int>(size.x);
+		dest.h = static_cast<int>(size.y);
 		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, nc::RadToDeg(transform.rotation), nullptr, SDL_FLIP_NONE);
 	}
 }

@@ -20,6 +20,7 @@ namespace nc
 	{
 		Matrix33 mxs;
 		mxs.Scale(localScale);
+		//mxs.Identity();
 
 		Matrix33 mxr;
 		mxr.Rotate(localRotation);

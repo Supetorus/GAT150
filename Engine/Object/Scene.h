@@ -41,6 +41,9 @@ namespace nc
 	private:
 		std::vector<std::unique_ptr<Actor>> actors;
 		std::vector<std::unique_ptr<Actor>> newActors;
+
+		//Makes the distance between actors calculate larger, so they can get closer before colliding.
+		float collisionGive = 2.0f;
 	};
 
 	template<typename T>

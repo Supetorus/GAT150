@@ -13,6 +13,7 @@ void Player::Intitialize()
 	// turret children[0]
 	std::unique_ptr turret = std::make_unique<Actor>(nc::Transform{}, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/turret_barrel.png", scene->engine->Get<nc::Renderer>()));
 	turret->transform.localPosition = nc::Vector2{ 0, 0 };
+	turret->transform.localScale = nc::Vector2{ 2, 2 };
 	AddChild(std::move(turret));
 
 	// rocket particles children[1]
@@ -40,6 +41,7 @@ void Player::Update(float dt)
 	// Rotates the barrel to the direction of the mouse
 	nc::Vector2 direction = mouseP - transform.position;
 	children[0]->transform.localRotation = direction.Angle() - transform.rotation;
+	//children[0]->transform.localRotation = 0;
 	
 	// Control inputs
 	float turnSpeed = 0;
@@ -97,7 +99,10 @@ void Player::Update(float dt)
 	}
 
 	// rocket particles
-	//scene->engine->Get<nc::ParticleSystem>()->Create(children[1]->transform.position, 30, 0.25f, nc::Color::cyan, thrust, thrust * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
+	scene->engine->Get<nc::ParticleSystem>()->Create(children[1]->transform.position, 10, 0.15f, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/particle_1.png", scene->engine->Get<nc::Renderer>()), thrust, thrust * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
+	//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 30, 1.0f,
+	//	scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/particle_1.png", scene->engine->Get<nc::Renderer>()),
+	//	thrust, thrust * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
 }
 
 void Player::OnCollision(Actor* actor)

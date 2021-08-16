@@ -24,8 +24,8 @@ namespace nc
 					if (actors[i]->destroy || actors[j]->destroy) continue;
 
 					nc::Vector2 dir = actors[i]->transform.position - actors[j]->transform.position;
-					float distance = dir.Length();
-					if (distance < actors[i]->GetRadius() + actors[j]->GetRadius())
+					float distance = dir.Length() * collisionGive;
+					if (distance < (actors[i]->GetRadius() + actors[j]->GetRadius()))
 					{
 						actors[i]->OnCollision(actors[j].get());
 						actors[j]->OnCollision(actors[i].get());
@@ -51,11 +51,6 @@ namespace nc
 	void Scene::Draw(Renderer* renderer)
 	{
 		std::for_each(actors.begin(), actors.end(), [renderer](auto& actor) { actor->Draw(renderer); });
-		//std::for_each(actors.begin(), actors.end(), [graphics](auto& actor) mutable {actor->Draw(graphics); });
-		/*for (auto& actor : actors)
-		{
-			actor->Draw(graphics);
-		}*/
 	}
 
 	void Scene::AddActor(std::unique_ptr<Actor> actor)

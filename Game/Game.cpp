@@ -12,11 +12,15 @@ void Game::Initialize()
 	scene = std::make_unique<nc::Scene>();
 	scene->engine = engine.get();
 
+	// Seed Random
+	nc::SeedRandom(static_cast<unsigned int>(time(nullptr)));
+
 	// Set File Path
 	nc::SetFilePath("../Resources");
 
 	// load sounds
 	engine->Get<nc::AudioSystem>()->AddAudio("explosion", "Audio/explosion.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("explosion_1", "Audio/explosion_1.wav");
 	engine->Get<nc::AudioSystem>()->AddAudio("enemy_fire", "Audio/enemy_shoot.wav");
 	engine->Get<nc::AudioSystem>()->AddAudio("player_fire", "Audio/player_shoot.wav");
 	engine->Get<nc::AudioSystem>()->AddAudio("music", "Audio/music.wav");
@@ -30,8 +34,8 @@ void Game::Initialize()
 	engine->Get<nc::EventSystem>()->Subscribe("PlayerDead", std::bind(&Game::OnPlayerDead, this, std::placeholders::_1));
 
 	//Get the font
-	int size = 16;
-	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("Fonts/times.ttf", &size);
+	int size = 20;
+	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("Fonts/cambriab.ttf", &size);
 	// create font texture
 	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
 	// set font texture with font surface
@@ -54,6 +58,26 @@ void Game::Initialize()
 	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
 	textTexture->Create(font->CreateSurface("Instructions", nc::Color::orange));
 	engine->Get<nc::ResourceSystem>()->Add("instructions", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("A: Turn Left", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("aTurnLeft", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("D: Turn Right", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("dTurnRight", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("W: Move Forward", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("wMoveForward", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("SPACE: Shoot Bullets", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("space", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Left Click: Shoot Rockets Toward mouse", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("lClick", textTexture);
 	
 	//load highscore
 	std::ifstream input("high_score.txt");
@@ -142,16 +166,18 @@ void Game::Draw()
 		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 30 };
 		break;
 	case Game::eState::Instructions:
-		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 30 };
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 - 45 };
 		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("instructions"), t);
-		/*graphics.SetColor(nc::Color::white);
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight/2 - 30, "Instructions");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 -15, "A: Turn Left");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2, "D: Turn Right");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +15, "W: Move Forward");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +30, "SPACE: Shoot Bullets");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +45, "Left Click: Shoot Rockets Towards Cursor");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +75, "Press Enter to Continue");*/
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 - 25 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("aTurnLeft"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("dTurnRight"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 25 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("wMoveForward"), t);
+		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +15, "W: Move Forward");
+		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +30, "SPACE: Shoot Bullets");
+		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +45, "Left Click: Shoot Rockets Towards Cursor");
+		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +75, "Press Enter to Continue");
 		break;
 	case Game::eState::StartGame:
 		break;
@@ -242,7 +268,6 @@ void Game::StartLevel()
 			nc::Transform{ {}, nc::RandomRange(0.0f, nc::TwoPi), 1 },
 			texture, 100.0f);
 		nc::Vector2 location = scene->SafeLocation(asteroid->GetRadius(), 100);
-		std::cout << "huzzah" << std::endl;
 		asteroid->transform.position = location;
 		scene->AddActor(std::move(asteroid));
 	}
@@ -254,7 +279,6 @@ void Game::StartLevel()
 			nc::Transform{ {}, nc::RandomRange(0.0f, nc::TwoPi), 0.5f },
 			engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/flame_blade.png", engine->Get<nc::Renderer>()), 100.0f);
 		nc::Vector2 location = scene->SafeLocation(enemy->GetRadius(), 500);
-		std::cout << "hurrah" << std::endl;
 		enemy->transform.position = location;
 		scene->AddActor(std::move(enemy));
 	}

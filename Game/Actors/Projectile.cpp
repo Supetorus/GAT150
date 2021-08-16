@@ -37,6 +37,7 @@ void Projectile::SelfDestruct(bool impact)
 {
 	if (hasTag("rocket"))
 	{
+		scene->engine->Get<nc::AudioSystem>()->PlayAudio("explosion_1");
 		for (size_t i = 0; i < 10; i++)
 		{
 			//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 30, 0.5f, shape->color, 50, 70, 0.0f, 0.0f, nc::TwoPi);
