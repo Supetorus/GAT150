@@ -1,6 +1,9 @@
 #pragma once
 #include "Engine.h"
 #include "Actors/Player.h"
+#include "Actors/Asteroid.h"
+#include "Actors/Enemy.h"
+#include "Actors/Projectile.h"
 #include "Math/Transform.h"
 #include "Math/Random.h"
 #include <fstream>
@@ -27,10 +30,6 @@ public:
 
 	bool isQuit() { return quit; }
 
-	int GetScreenWidth() { return screenWidth; }
-	int GetScreenHeight() { return screenHeight; }
-
-
 private:
 	void UpdateTitle(float dt);
 	void StartLevel();
@@ -46,7 +45,6 @@ private:
 	bool quit = false;
 	eState state = eState::Title;
 	float stateTimer = 0.0f;
-	float audioTimer = 0.0f;
 
 	size_t score = 0;
 	size_t lives = 3;
@@ -57,9 +55,6 @@ private:
 	float fireTimer{ 0 };
 	float fireRate{ 0.1f }; // time between shots
 	float screenTimer = 0;
-
-	int screenWidth = 800;
-	int screenHeight = 600;
 
 	nc::AudioChannel musicChannel;
 	std::shared_ptr<nc::Texture> particleTexture;

@@ -41,16 +41,16 @@ void Projectile::SelfDestruct(bool impact)
 		{
 			//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 30, 0.5f, shape->color, 50, 70, 0.0f, 0.0f, nc::TwoPi);
 
-			//// create the projectile
-			//nc::Transform projectileTransform = nc::Transform{ transform.position, nc::Random() * nc::TwoPi, 1.0f };
-			//std::shared_ptr<nc::Shape> projectileShape = scene->engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("rocket.txt");
-			//std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectileTransform, projectileShape, 100.0f, 20);
-			//projectile->addTag("player");
-			//projectile->addTag("mini_rocket");
-			//projectile->lifetime = 1.0f;
+			// create the projectile
+			nc::Transform projectileTransform = nc::Transform{ transform.position, nc::Random() * nc::TwoPi, 0.15f };
+			std::shared_ptr<nc::Texture> projectileShape = scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/rocket.png", scene->engine->Get<nc::Renderer>());
+			std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectileTransform, projectileShape, 100.0f, 20);
+			projectile->addTag("player");
+			projectile->addTag("mini_rocket");
+			projectile->lifetime = 1.0f;
 
-			//// add projectile to the scene
-			//scene->AddActor(std::move(projectile));
+			// add projectile to the scene
+			scene->AddActor(std::move(projectile));
 		}
 	}
 	else if (impact)

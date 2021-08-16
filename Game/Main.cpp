@@ -1,13 +1,6 @@
 #include "Game.h"
 
-//#include "Engine.h"
-//#include <SDL.h>
-//#include <SDL_Image.h>
-//#include <iostream>
-//
-//#include <cassert>
-
-#define MSG(message) std::cout << #message << std::endl;
+//#define MSG(message) std::cout << #message << std::endl;
 
 int main(int, char**)
 {
@@ -23,10 +16,9 @@ int main(int, char**)
 		switch (event.type)
 		{
 			case SDL_QUIT:
-			quit = true;
-			break;
+				quit = true;
+				break;
 		}
-
 		game.Update();
 		game.Draw();
 	}

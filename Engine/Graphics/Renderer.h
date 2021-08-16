@@ -21,11 +21,17 @@ namespace nc
 		void Draw(std::shared_ptr<nc::Texture> texture, const Vector2& position, float angle = 0, const Vector2& scale = { Vector2::one });
 		void Draw(std::shared_ptr<nc::Texture> texture, const Transform& transform);
 
+		int GetWidth() { return width; }
+		int GetHeight() { return height; }
+
 		friend class Texture; // makes the texture class a friend of renderer, so texture has access to the renderer declared in private.
 
 	private:
 		SDL_Renderer* renderer{ nullptr };
 		SDL_Window* window{ nullptr };
+
+		int width;
+		int height;
 		
 	};
 }

@@ -11,9 +11,9 @@ void Player::Intitialize()
 	health = startHealth;
 
 	// turret children[0]
-	/*std::unique_ptr turret = std::make_unique<Actor>(nc::Transform{}, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("turret_barrel.txt"));
+	std::unique_ptr turret = std::make_unique<Actor>(nc::Transform{}, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/turret_barrel.png", scene->engine->Get<nc::Renderer>()));
 	turret->transform.localPosition = nc::Vector2{ 0, 0 };
-	AddChild(std::move(turret));*/
+	AddChild(std::move(turret));
 
 	// rocket particles children[1]
 	std::unique_ptr locator = std::make_unique<Actor>();
@@ -53,12 +53,11 @@ void Player::Update(float dt)
 	velocity.CircleClamp(300);
 	velocity *= friction;
 	
-	std::cout << velocity.x << " " << velocity.y << std::endl;
-	//nc::Vector2::Rotate(nc::Vector2::up, transform.rotation);
+	//std::cout << velocity.x << " " << velocity.y << std::endl;
 	nc::Vector2 translation = nc::Vector2::Rotate(nc::Vector2::right, transform.rotation) * thrust;
 	transform.position += velocity * dt;
-	//transform.position.x = nc::Wrap(transform.position.x, static_cast<float>(nc::WindowInfo::minWidth), static_cast < float>(nc::WindowInfo::maxWidth));
-	//transform.position.y = nc::Wrap(transform.position.y, static_cast<float>(nc::WindowInfo::minHeight), static_cast<float>(nc::WindowInfo::maxHeight));
+	transform.position.x = nc::Wrap(transform.position.x, 0.0f, static_cast <float>(scene->engine->Get<nc::Renderer>()->GetWidth()));
+	transform.position.y = nc::Wrap(transform.position.y, 0.0f, static_cast<float>(scene->engine->Get<nc::Renderer>()->GetHeight()));
 
 	// shoot bullets
 	bulletFireTimer -= dt;
@@ -66,9 +65,9 @@ void Player::Update(float dt)
 	{
 		bulletFireTimer = bulletFireRate;
 
-		//nc::Transform bulletTransform = children[0]->transform;
-		nc::Transform bulletTransform = transform;
-		//bulletTransform.rotation = (mouseP - transform.position).Angle();
+		nc::Transform bulletTransform = children[0]->transform;
+		//nc::Transform bulletTransform = transform;
+		bulletTransform.rotation = (mouseP - transform.position).Angle();
 		shoot(bulletTransform);
 	}
 
@@ -111,30 +110,32 @@ void Player::OnCollision(Actor* actor)
 void Player::shoot(const nc::Transform& transform)
 {
 	//// create the projectile
-	//nc::Transform projectileTransform = transform;
-	//projectileTransform.scale = 2.0f;
-	//std::shared_ptr<nc::Shape> projectileShape = scene->engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("small_bullet.txt");
-	//std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectileTransform, projectileShape, 400.0f, 2);
-	//projectile->transform.rotation += nc::Random() * 0.2f;
-	//projectile->addTag("player");
-	//projectile->addTag("bullet");
+	nc::Transform projectileTransform = transform;
+	projectileTransform.scale = 0.2f;
+	std::shared_ptr<nc::Texture> texture =
+		scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/bullet.png", scene->engine->Get<nc::Renderer>());
+	std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectileTransform, texture, 400.0f, 2);
+	projectile->transform.rotation += nc::Random() * 0.2f;
+	projectile->addTag("player");
+	projectile->addTag("bullet");
 
-	//// add projectile to the scene
-	//scene->AddActor(std::move(projectile));
-	//scene->engine->Get<nc::AudioSystem>()->PlayAudio("player_fire");
+	// add projectile to the scene
+	scene->AddActor(std::move(projectile));
+	scene->engine->Get<nc::AudioSystem>()->PlayAudio("player_fire");
 }
 
 void Player::shootRocket(const nc::Transform& transform)
 {
-	//// create the projectile
-	//nc::Transform projectileTransform = transform;
-	//projectileTransform.scale = 4.0f;
-	//std::shared_ptr<nc::Shape> projectileShape = scene->engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("rocket.txt");
-	//std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectileTransform, projectileShape, 50.0f, 20);
-	//projectile->addTag("player");
-	//projectile->addTag("rocket");
+	// create the projectile
+	nc::Transform projectileTransform = transform;
+	projectileTransform.scale = 0.3f;
+	std::shared_ptr<nc::Texture> texture =
+		scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/rocket.png", scene->engine->Get<nc::Renderer>());
+	std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectileTransform, texture, 50.0f, 20);
+	projectile->addTag("player");
+	projectile->addTag("rocket");
 
 	//// add projectile to the scene
-	//scene->AddActor(std::move(projectile));
-	//scene->engine->Get<nc::AudioSystem>()->PlayAudio("rocket");
+	scene->AddActor(std::move(projectile));
+	scene->engine->Get<nc::AudioSystem>()->PlayAudio("rocket");
 }

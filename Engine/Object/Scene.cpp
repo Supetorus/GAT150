@@ -98,8 +98,8 @@ namespace nc
 		{
 			location =
 			{
-				//nc::RandomRange(static_cast<float>(nc::WindowInfo::minWidth), static_cast<float>(nc::WindowInfo::maxWidth)),
-				//nc::RandomRange(static_cast<float>(nc::WindowInfo::minHeight), static_cast<float>(nc::WindowInfo::maxHeight))
+				nc::RandomRange(0.0f, 800),
+				nc::RandomRange(0.0f, 600)
 			};
 			for (std::unique_ptr<Actor>& actor : actors)
 			{

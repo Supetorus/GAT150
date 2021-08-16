@@ -30,6 +30,9 @@ namespace nc
 
 	void Renderer::Create(const std::string& name, int width, int height)
 	{
+		this->width = width;
+		this->height = height;
+
 		window = SDL_CreateWindow(name.c_str(), 100, 100, width, height, SDL_WINDOW_SHOWN);
 		if (window == nullptr)
 		{

@@ -21,8 +21,8 @@ void Asteroid::Update(float dt)
 	{
 		transform.position += velocity * dt;
 		transform.rotation += rotationSpeed * dt;
-		//transform.position.x = nc::Wrap(transform.position.x, static_cast<float>(nc::WindowInfo::minWidth), static_cast<float>(nc::WindowInfo::maxWidth));
-		//transform.position.y = nc::Wrap(transform.position.y, static_cast<float>(nc::WindowInfo::minHeight), static_cast<float>(nc::WindowInfo::maxHeight));
+		transform.position.x = nc::Wrap(transform.position.x, 0.0f, scene->engine->Get<nc::Renderer>()->GetWidth() * 1.0f);
+		transform.position.y = nc::Wrap(transform.position.y, 0.0f, scene->engine->Get<nc::Renderer>()->GetHeight() * 1.0f);
 	}
 
 	//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 30, 0.5f, nc::Color::yellow, thrust, thrust * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);

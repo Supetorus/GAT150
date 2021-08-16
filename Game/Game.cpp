@@ -5,7 +5,7 @@ void Game::Initialize()
 	// Create Engine
 	engine = std::make_unique<nc::Engine>();
 	engine->Startup();
-	engine->Get<nc::Renderer>()->Create("GAT150", screenWidth, screenHeight);
+	engine->Get<nc::Renderer>()->Create("GAT150", 800, 600);
 	engine->time.timeScale = 1.0f;
 
 	// Create Scene
@@ -16,30 +16,44 @@ void Game::Initialize()
 	nc::SetFilePath("../Resources");
 
 	// load sounds
+	engine->Get<nc::AudioSystem>()->AddAudio("explosion", "Audio/explosion.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("enemy_fire", "Audio/enemy_shoot.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("player_fire", "Audio/player_shoot.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("music", "Audio/music.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("destroy", "Audio/destroy.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("destroy_1", "Audio/destroy_1.wav");
+	engine->Get<nc::AudioSystem>()->AddAudio("rocket", "Audio/rocket.wav");
 	musicChannel = engine->Get<nc::AudioSystem>()->PlayAudio("music", 1, 1, true);
-	engine->Get<nc::AudioSystem>()->AddAudio("explosion", "explosion.wav");
-	engine->Get<nc::AudioSystem>()->AddAudio("enemy_fire", "enemy_shoot.wav");
-	engine->Get<nc::AudioSystem>()->AddAudio("player_fire", "player_shoot.wav");
-	engine->Get<nc::AudioSystem>()->AddAudio("music", "music.wav");
-	engine->Get<nc::AudioSystem>()->AddAudio("destroy", "destroy.wav");
-	engine->Get<nc::AudioSystem>()->AddAudio("destroy_1", "destroy_1.wav");
-	engine->Get<nc::AudioSystem>()->AddAudio("rocket", "rocket.wav");
-
-	int size = 16;
-	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("fonts/times.ttf", &size);
-
-	// create font texture
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	// set font texture with font surface
-	textTexture->Create(font->CreateSurface("\"Pass this off please\" - William Little, 08/11/2021 7:57 PM", nc::Color{ 1, 1, 1 }));
-	// add font texture to resource system
-	engine->Get<nc::ResourceSystem>()->Add("textTexture", textTexture);
 
 	// Subscribe to events
 	engine->Get<nc::EventSystem>()->Subscribe("AddPoints", std::bind(&Game::OnAddPoints, this, std::placeholders::_1));
 	engine->Get<nc::EventSystem>()->Subscribe("PlayerDead", std::bind(&Game::OnPlayerDead, this, std::placeholders::_1));
 
-	scene->engine->Get<nc::AudioSystem>()->PlayAudio("music");
+	//Get the font
+	int size = 16;
+	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("Fonts/times.ttf", &size);
+	// create font texture
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	// set font texture with font surface
+	textTexture->Create(font->CreateSurface("Shoot Stuff", nc::Color::red));
+	// add font texture to resource system
+	engine->Get<nc::ResourceSystem>()->Add("shootStuff", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Press Enter to Start", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("start", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Highscore:", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("highscore", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface(std::to_string(highscore).c_str(), nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("score", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Instructions", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("instructions", textTexture);
 	
 	//load highscore
 	std::ifstream input("high_score.txt");
@@ -65,13 +79,7 @@ void Game::Update()
 
 	float dt = engine->time.deltaTime;
 	stateTimer += dt;
-	audioTimer += dt;
 	screenTimer += dt;
-	if (audioTimer >= 53)
-	{
-		audioTimer = 0.0f;
-		scene->engine->Get<nc::AudioSystem>()->PlayAudio("music");
-	}
 
 	switch (state)
 	{
@@ -79,7 +87,7 @@ void Game::Update()
 		UpdateTitle(dt);
 		break;
 	case Game::eState::Instructions:
-		if ((engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed))
+		if ((engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_RETURN) == nc::InputSystem::eKeyState::Pressed))
 		{
 			state = eState::StartGame;
 		}
@@ -111,37 +119,31 @@ void Game::Update()
 		break;
 	}
 
-
+	if (!quit) quit = (engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
 	// Update
 	scene->Update(engine->time.deltaTime);
-
-	if (!quit) quit = (engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
 }
 
 void Game::Draw()
 {
 	engine->Get<nc::Renderer>()->BeginFrame();
-	// center lines for alignment
-	//graphics.DrawLine(nc::WindowInfo::maxWidth / 2, 0, nc::WindowInfo::maxWidth / 2, nc::WindowInfo::maxHeight);
-	//graphics.DrawLine(0, nc::WindowInfo::maxHeight / 2, nc::WindowInfo::maxWidth, nc::WindowInfo::maxHeight / 2);
-
-	// edge lines
-	/*graphics.DrawLine(nc::WindowInfo::minWidth, 0, nc::WindowInfo::minWidth, nc::WindowInfo::maxHeight);
-	graphics.DrawLine(nc::WindowInfo::maxWidth-1, 0, nc::WindowInfo::maxWidth-1, nc::WindowInfo::maxHeight);
-	graphics.DrawLine(0, nc::WindowInfo::maxHeight-1, nc::WindowInfo::maxWidth, nc::WindowInfo::maxHeight-1);
-	graphics.DrawLine(0, nc::WindowInfo::minHeight, nc::WindowInfo::maxWidth, nc::WindowInfo::minHeight);*/
+	
+	nc::Transform t;
 
 	switch (state)
 	{
 	case Game::eState::Title:
-		//graphics.SetColor(nc::Color::red);
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 38, nc::WindowInfo::maxHeight / 2 + static_cast<int>(std::sin(stateTimer * 6) * 10), "Shoot Stuff"); // Draw the game title
-		//graphics.SetColor(nc::Color::orange);
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 70, nc::WindowInfo::maxHeight / 2 + 50, "Press Enter to Start");
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 40, nc::WindowInfo::minHeight + 20, "High Score:");
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::minHeight + 30, std::to_string(highscore).c_str());
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 38, engine->Get<nc::Renderer>()->GetHeight() / 2 + static_cast<int>(std::sin(stateTimer * 6) * 10) };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("shootStuff"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 70, engine->Get<nc::Renderer>()->GetHeight() / 2 + 50 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("start"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 40, engine->Get<nc::Renderer>()->GetHeight() / 2 + 20 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("highscore"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 30 };
 		break;
 	case Game::eState::Instructions:
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 30 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("instructions"), t);
 		/*graphics.SetColor(nc::Color::white);
 		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight/2 - 30, "Instructions");
 		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 -15, "A: Turn Left");
@@ -217,7 +219,7 @@ void Game::Draw()
 void Game::UpdateTitle(float dt)
 {
 	
-	if ((engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed))
+	if ((engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_RETURN) == nc::InputSystem::eKeyState::Pressed))
 	{
 		state = eState::Instructions;
 		screenTimer = 0;
@@ -226,31 +228,36 @@ void Game::UpdateTitle(float dt)
 
 void Game::StartLevel()
 {
-	/*scene->RemoveByTag("bullet");
-	scene->RemoveByTag("asteroid");*/
+	scene->RemoveByTag("bullet");
+	scene->RemoveByTag("asteroid");
 
 	// add asteroids
-	/*for (size_t i = 0; i < 1 + level; i++)
+	for (size_t i = 0; i < 1 + level; i++)
 	{
 		std::string asteroidNum = std::to_string(rand() % 5);
+		std::shared_ptr<nc::Texture> texture =
+			engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/asteroid_" + asteroidNum + ".png", engine->Get<nc::Renderer>());
+
 		std::unique_ptr<Asteroid> asteroid = std::make_unique<Asteroid>(
-			nc::Transform{ {}, nc::RandomRange(0.0f, nc::TwoPi), nc::RandomRange(1, 15) },
-			engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("asteroid_" + asteroidNum + ".txt"), 100.0f);
-		nc::Vector2 location = scene->SafeLocation(asteroid->GetRadius(), 500);
+			nc::Transform{ {}, nc::RandomRange(0.0f, nc::TwoPi), 1 },
+			texture, 100.0f);
+		nc::Vector2 location = scene->SafeLocation(asteroid->GetRadius(), 100);
+		std::cout << "huzzah" << std::endl;
 		asteroid->transform.position = location;
 		scene->AddActor(std::move(asteroid));
-	}*/
+	}
 
 	// add enemies
-	/*for (size_t i = 0; i < 3 + level; i++)
+	for (size_t i = 0; i < 3 + level; i++)
 	{
 		std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(
-			nc::Transform{ {}, nc::RandomRange(0.0f, nc::TwoPi), 6.0f },
-			engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("enemy_ship.txt"), 100.0f);
+			nc::Transform{ {}, nc::RandomRange(0.0f, nc::TwoPi), 0.5f },
+			engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/flame_blade.png", engine->Get<nc::Renderer>()), 100.0f);
 		nc::Vector2 location = scene->SafeLocation(enemy->GetRadius(), 500);
+		std::cout << "hurrah" << std::endl;
 		enemy->transform.position = location;
 		scene->AddActor(std::move(enemy));
-	}*/
+	}
 }
 
 void Game::OnAddPoints(const nc::Event& event)
@@ -284,17 +291,12 @@ void Game::SpawnPlayer()
 {
 	// Texture Stuff
 	std::shared_ptr<nc::Texture> texture =
-		engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("sf2.png", engine->Get<nc::Renderer>());
-
-	// Adding the dude to the screen
-	nc::Transform transform{ nc::Vector2{400, 300}, 0.0f, 1.0f };
-	std::unique_ptr<nc::Actor> actor = std::make_unique<nc::Actor>(transform, texture);
-	scene->AddActor(std::move(actor));
+		engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/green_arrow.png", engine->Get<nc::Renderer>());
 
 	std::unique_ptr<Player> player = std::make_unique<Player>(
-		nc::Transform{ nc::Vector2{0, 0}, 0.0f, 3.0f }, // position, rotation, scale
+		nc::Transform{ nc::Vector2{0, 0}, 0.0f, 0.5f }, // position, rotation, scale
 		texture);
 	if (scene->ActorCount() > 0) player->transform.position = scene->SafeLocation(player->GetRadius(), 500.0f);
-	else player->transform.position = { screenWidth / 2, screenHeight / 2 };
+	else player->transform.position = { engine->Get<nc::Renderer>()->GetWidth() / 2, engine->Get<nc::Renderer>()->GetWidth() / 2 };
 	scene->AddActor(std::move(player));
 }

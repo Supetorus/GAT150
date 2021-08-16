@@ -38,21 +38,21 @@ void Enemy::Update(float dt)
 		fireTimer -= dt;
 		if (angle <= nc::DegToRad(10))
 		{
-			//if (fireTimer <= 0) // only fires if the enemy ship is facing the player
-			//{
-			//	fireTimer = fireRate;
-			//	//std::vector<nc::Vector2> points = { {-5,-5}, {5, -5}, {0, 10}, {-5,-5} };
-			//	std::shared_ptr<nc::Shape> enemyBulletShape = scene->engine->Get<nc::ResourceSystem>()->Get<nc::Shape>("enemy_bullet.txt");
+			if (fireTimer <= 0) // only fires if the enemy ship is facing the player
+			{
+				fireTimer = fireRate;
+				//std::vector<nc::Vector2> points = { {-5,-5}, {5, -5}, {0, 10}, {-5,-5} };
+				std::shared_ptr<nc::Texture> enemyBulletTexture = scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/enemy_bullet.png", scene->engine->Get<nc::Renderer>());
 
-			//	nc::Transform t = children[0]->transform;
-			//	t.scale = 5.0f;
-			//	std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(t, enemyBulletShape, 200.0f, 10);
-			//	projectile->addTag( "id:" + std::to_string(id));
-			//	projectile->addTag("enemy");
-			//	projectile->addTag("bullet");
-			//	scene->AddActor(std::move(projectile));
-			//	scene->engine->Get<nc::AudioSystem>()->PlayAudio("enemy_fire");
-			//}
+				nc::Transform t = children[0]->transform;
+				t.scale = 0.2f;
+				std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(t, enemyBulletTexture, 200.0f, 10);
+				projectile->addTag( "id:" + std::to_string(id));
+				projectile->addTag("enemy");
+				projectile->addTag("bullet");
+				scene->AddActor(std::move(projectile));
+				scene->engine->Get<nc::AudioSystem>()->PlayAudio("enemy_fire");
+			}
 			
 		}
 		if (angle <= nc::DegToRad(45))
@@ -63,8 +63,8 @@ void Enemy::Update(float dt)
 
 
 		transform.position += nc::Vector2::Rotate(nc::Vector2::right, transform.rotation) * speed * dt;
-		//transform.position.x = nc::Wrap(transform.position.x, static_cast<float>(nc::WindowInfo::minWidth), static_cast<float>(nc::WindowInfo::maxWidth));
-		//transform.position.y = nc::Wrap(transform.position.y, static_cast<float>(nc::WindowInfo::minHeight), static_cast<float>(nc::WindowInfo::maxHeight));
+		transform.position.x = nc::Wrap(transform.position.x, 0.0f, scene->engine->Get<nc::Renderer>()->GetWidth() * 1.0f);
+		transform.position.y = nc::Wrap(transform.position.y, 0.0f, scene->engine->Get<nc::Renderer>()->GetWidth() * 1.0f);
 	}
 
 	// death
