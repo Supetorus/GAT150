@@ -36,6 +36,7 @@ private:
 	void OnAddPoints(const nc::Event& event);
 	void OnPlayerDead(const nc::Event& event);
 	void SpawnPlayer();
+	void InitText();
 
 public:
 	std::unique_ptr<nc::Engine> engine;

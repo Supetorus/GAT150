@@ -14,12 +14,11 @@ void Projectile::Update(float dt)
 	{
 		destroy = true;
 	}*/
-	/*transform.position.x = nc::Clamp(transform.position.x, 0.0f, 800.0f);
-	transform.position.y = nc::Clamp(transform.position.y, 0.0f, 600.0f);*/
 
-	//std::vector<nc::Color> colors = { nc::Color::white, nc::Color::red, nc::Color::blue };
 	//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 10, 0.5f, colors[nc::RandomRangeInt(0, colors.size())], 150);
-	//if (hasTag("rocket")) scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 5, 0.1f, nc::Color::orange, 0, speed, transform.rotation + nc::Pi, 0.0f, 0.4f);
+	if (hasTag("rocket")) scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 5, 0.2f,
+		scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/particle_1.png", scene->engine->Get<nc::Renderer>()),
+		0, speed, transform.rotation + nc::Pi, 0.0f, 0.4f);
 }
 
 void Projectile::OnCollision(Actor* actor)

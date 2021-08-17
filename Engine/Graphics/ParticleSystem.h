@@ -34,6 +34,7 @@ namespace nc
 
 		//void Create(Vector2& position, size_t count, float lifetime, const Color& color, float thrust);
 		void Create(Vector2& position, size_t count, float lifetime, std::shared_ptr<Texture> texture, float minSpeed, float maxSpeed, float direction, float rotation, float angleRange);
+		void CreateBurst(Vector2& position, size_t count, float lifetime, std::shared_ptr<Texture> texture);
 		//void Create(Vector2& position, size_t count, float lifetime, const std::vector<Color>& colors, float minSpeed, float maxSpeed, float direction, float rotation, float angleRange);
 		//void Create(Vector2& position, size_t count, float minifetime, float maxLifetime, const Color& color, float minSpeed, float maxSpeed, float direction, float rotation, float angleRange);
 

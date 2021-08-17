@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Math/Random.h"
+#include "Math/MathUtils.h"
 
 namespace nc
 {
@@ -59,28 +60,12 @@ namespace nc
 				particle->texture = texture;
 				particle->rotation = rotation;
 				particle->direction = direction + RandomRange(-angleRange / 2, angleRange / 2);
-				//particle->direction = direction;
 				particle->speed = RandomRange(minSpeed, maxSpeed);
-				//particle->speed = maxSpeed;
 			}
 		}
 	}
-	/*void ParticleSystem::Create(Vector2& position, size_t count, float lifetime, const std::vector<Color>& colors, float minSpeed, float maxSpeed, float direction, float rotation, float angleRange)
+	void ParticleSystem::CreateBurst(Vector2& position, size_t count, float lifetime, std::shared_ptr<Texture> texture)
 	{
-		for (size_t i = 0; i < count; i++)
-		{
-			auto particle = std::find_if(particles.begin(), particles.end(), Particle::IsNotActive);
-			if (particle != particles.end())
-			{
-				particle->isActive = true;
-				particle->lifetime = lifetime;
-				particle->position = position;
-				particle->prevPosition = position;
-				particle->color = colors[rand() % colors.size()];
-				particle->rotation = rotation;
-				particle->direction = direction + RandomRange(-angleRange / 2, angleRange / 2);
-				particle->speed = RandomRange(minSpeed, maxSpeed);
-			}
-		}
-	}*/
+		Create(position, count, lifetime, texture, 75.0f, 125.0f, 0.0f, 0.0f, nc::TwoPi);
+	}
 }

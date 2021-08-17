@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Actor.h"
 #include "Math/Random.h"
+#include "Engine.h"
 #include <algorithm>
 
 namespace nc
@@ -93,8 +94,8 @@ namespace nc
 		{
 			location =
 			{
-				nc::RandomRange(0.0f, 800),
-				nc::RandomRange(0.0f, 600)
+				nc::RandomRange(0.0f, engine->Get<nc::Renderer>()->GetWidth()),
+				nc::RandomRange(0.0f, engine->Get<nc::Renderer>()->GetHeight())
 			};
 			for (std::unique_ptr<Actor>& actor : actors)
 			{

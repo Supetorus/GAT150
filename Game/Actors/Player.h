@@ -23,7 +23,7 @@ private:
 	float rocketFireRate{ 5.0f }; // time between shots
 	float acceleration = 5;
 	float friction = 0.98f;
-	float rotationSpeed = 7;
+	float rotationSpeed = 5;
 	float thrust = 0;
 	float maxSpeed = 400;
 	nc::Vector2 velocity{ 0,0 };

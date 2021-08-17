@@ -25,5 +25,4 @@ namespace nc
 	private:
 		SDL_Renderer* renderer{ nullptr };
 	};
-
 }

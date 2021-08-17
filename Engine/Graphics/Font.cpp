@@ -25,10 +25,6 @@ namespace nc
 		return true;
 	}
 
-
-
-
-
 	SDL_Surface* Font::CreateSurface(const std::string& text, const nc::Color& color)
 	{
 		SDL_Surface* surface = TTF_RenderText_Solid( font, text.c_str(), color );

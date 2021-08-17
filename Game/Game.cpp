@@ -5,8 +5,10 @@ void Game::Initialize()
 	// Create Engine
 	engine = std::make_unique<nc::Engine>();
 	engine->Startup();
-	engine->Get<nc::Renderer>()->Create("GAT150", 800, 600);
 	engine->time.timeScale = 1.0f;
+
+	// Create renderer
+	engine->Get<nc::Renderer>()->Create("GAT150", 1500, 800);
 
 	// Create Scene
 	scene = std::make_unique<nc::Scene>();
@@ -32,52 +34,6 @@ void Game::Initialize()
 	// Subscribe to events
 	engine->Get<nc::EventSystem>()->Subscribe("AddPoints", std::bind(&Game::OnAddPoints, this, std::placeholders::_1));
 	engine->Get<nc::EventSystem>()->Subscribe("PlayerDead", std::bind(&Game::OnPlayerDead, this, std::placeholders::_1));
-
-	//Get the font
-	int size = 20;
-	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("Fonts/cambriab.ttf", &size);
-	// create font texture
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	// set font texture with font surface
-	textTexture->Create(font->CreateSurface("Shoot Stuff", nc::Color::red));
-	// add font texture to resource system
-	engine->Get<nc::ResourceSystem>()->Add("shootStuff", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("Press Enter to Start", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("start", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("Highscore:", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("highscore", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface(std::to_string(highscore).c_str(), nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("score", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("Instructions", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("instructions", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("A: Turn Left", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("aTurnLeft", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("D: Turn Right", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("dTurnRight", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("W: Move Forward", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("wMoveForward", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("SPACE: Shoot Bullets", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("space", textTexture);
-
-	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
-	textTexture->Create(font->CreateSurface("Left Click: Shoot Rockets Toward mouse", nc::Color::orange));
-	engine->Get<nc::ResourceSystem>()->Add("lClick", textTexture);
 	
 	//load highscore
 	std::ifstream input("high_score.txt");
@@ -89,6 +45,71 @@ void Game::Initialize()
 		//input >> highscore;
 	}
 	input.close();
+
+	// Create texts
+	InitText();
+}
+
+void Game::InitText()
+{
+	int size = 20;
+	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("Fonts/cambriab.ttf", &size);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Shoot Stuff", nc::Color::red));
+	engine->Get<nc::ResourceSystem>()->Add("shootStuffTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Press Enter to Continue", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("startTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Highscore: " + std::to_string(highscore), nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("highscoreTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Score: ", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("scoreTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Lives: ", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("livesTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Health: ", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("healthTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Rocket In: ", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("rocketInTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Instructions", nc::Color::red));
+	engine->Get<nc::ResourceSystem>()->Add("instructionsTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("A: Turn Left", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("aTurnLeftTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("D: Turn Right", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("dTurnRightTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("W: Move Forward", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("wMoveForwardTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("SPACE: Shoot Bullets", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("spaceShootTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Left Click: Shoot Rockets Toward mouse", nc::Color::orange));
+	engine->Get<nc::ResourceSystem>()->Add("lClickTexture", textTexture);
+
+	textTexture = std::make_shared<nc::Texture>(engine->Get<nc::Renderer>());
+	textTexture->Create(font->CreateSurface("Game Over", nc::Color::red));
+	engine->Get<nc::ResourceSystem>()->Add("gameOverTexture", textTexture);
 }
 
 void Game::Shutdown()
@@ -129,7 +150,11 @@ void Game::Update()
 		state = eState::Game;
 		break;
 	case Game::eState::Game:
-		
+		if (scene->GetActors<Enemy>().size() == 0)
+		{
+			level++;
+			state = eState::StartLevel;
+		}
 		break;
 	case Game::eState::GameOver:
 		scene->RemoveAllActors();
@@ -152,93 +177,100 @@ void Game::Draw()
 {
 	engine->Get<nc::Renderer>()->BeginFrame();
 	
-	nc::Transform t;
+	int size = 12;
+	std::shared_ptr<nc::Font> font = engine->Get<nc::ResourceSystem>()->Get<nc::Font>("Fonts/cambriab.ttf", &size);
+	nc::Transform t{};
+	std::shared_ptr<nc::Texture> texture;
 
 	switch (state)
 	{
 	case Game::eState::Title:
-		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 38, engine->Get<nc::Renderer>()->GetHeight() / 2 + static_cast<int>(std::sin(stateTimer * 6) * 10) };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("shootStuff"), t);
-		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 70, engine->Get<nc::Renderer>()->GetHeight() / 2 + 50 };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("start"), t);
+	{
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 38, engine->Get<nc::Renderer>()->GetHeight() / 2 + static_cast<int>(std::sin(stateTimer * 6) * 10 - 50) };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("shootStuffTexture"), t);
 		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 40, engine->Get<nc::Renderer>()->GetHeight() / 2 + 20 };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("highscore"), t);
-		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 30 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("highscoreTexture"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 70, engine->Get<nc::Renderer>()->GetHeight() / 2 + 50 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("startTexture"), t);
+	}
 		break;
 	case Game::eState::Instructions:
-		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 - 45 };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("instructions"), t);
+	{
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 - 50 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("instructionsTexture"), t);
 		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 - 25 };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("aTurnLeft"), t);
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("aTurnLeftTexture"), t);
 		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("dTurnRight"), t);
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("dTurnRightTexture"), t);
 		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 25 };
-		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("wMoveForward"), t);
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +15, "W: Move Forward");
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +30, "SPACE: Shoot Bullets");
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +45, "Left Click: Shoot Rockets Towards Cursor");
-		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 20, nc::WindowInfo::maxHeight / 2 +75, "Press Enter to Continue");
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("wMoveForwardTexture"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 50 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("spaceShootTexture"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 75 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("lClickTexture"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 100 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("startTexture"), t);
+	}
 		break;
 	case Game::eState::StartGame:
 		break;
 	case Game::eState::StartLevel:
 		break;
 	case Game::eState::Game:
-		/*graphics.SetColor(nc::Color::white);
-		graphics.DrawString(nc::WindowInfo::minWidth + 30, nc::WindowInfo::minHeight + 20, ("High Score: " + std::to_string(highscore)).c_str());
-		graphics.DrawString(nc::WindowInfo::minWidth + 30, nc::WindowInfo::minHeight + 35, ("Score: " + std::to_string(score)).c_str());
-		graphics.DrawString(nc::WindowInfo::maxWidth - 80, nc::WindowInfo::minHeight + 20, ("Lives: " + std::to_string(lives)).c_str());*/
-		//if (scene->GetActor<Player>())
-		//{
-		//	graphics.SetColor(nc::Color::orange);
-		//	//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 30, nc::WindowInfo::minHeight + 20, ("Health: " + std::to_string(scene->GetActor<Player>()->health)).c_str());
-		//	if (scene->GetActor<Player>()->rocketFireTimer > 0)
-		//	{
-		//		std::string t = std::to_string(scene->GetActor<Player>()->rocketFireTimer);
-		//		//graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 30, nc::WindowInfo::maxHeight - 20, t.c_str());
-		//	}
-		//}
+	{
+		nc::Transform t;
+		t.position = { 60, 20 };
+		texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("highscoreTexture", engine->Get<nc::Renderer>());
+		texture->Create(font->CreateSurface("Highscore: " + std::to_string(highscore), nc::Color::white));
+		engine->Get<nc::Renderer>()->Draw(texture, t);
+		t.position = { 60, 40 };
+		texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("scoreTexture", engine->Get<nc::Renderer>());
+		texture->Create(font->CreateSurface("Score: " + std::to_string(score), nc::Color::white));
+		engine->Get<nc::Renderer>()->Draw(texture, t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() - 80, 20 };
+		texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("livesTexture", engine->Get<nc::Renderer>());
+		texture->Create(font->CreateSurface("Lives: " + std::to_string(lives), nc::Color::white));
+		engine->Get<nc::Renderer>()->Draw(texture, t);
+
+		if (scene->GetActor<Player>())
+		{
+			t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 30, 20 };
+			texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("healthTexture", engine->Get<nc::Renderer>());
+			texture->Create(font->CreateSurface("Health: " + std::to_string(scene->GetActor<Player>()->health), nc::Color::white));
+			engine->Get<nc::Renderer>()->Draw(texture, t);
+			if (scene->GetActor<Player>()->rocketFireTimer > 0)
+			{
+				t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 30, engine->Get<nc::Renderer>()->GetHeight() - 20 };
+				texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("rocketInTexture", engine->Get<nc::Renderer>());
+				texture->Create(font->CreateSurface("Rocket In: " + std::to_string(scene->GetActor<Player>()->rocketFireTimer), nc::Color::white));
+				engine->Get<nc::Renderer>()->Draw(texture, t);
+			}
+		}
+	}
 		break;
 	case Game::eState::GameOver:
-		/*graphics.SetColor(nc::Color::red);
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 28, nc::WindowInfo::maxHeight / 2, "Game Over");
-		graphics.SetColor(nc::Color::orange);
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 15, nc::WindowInfo::maxHeight / 2 + 20, "Score:");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 10, nc::WindowInfo::maxHeight / 2 + 35, std::to_string(score).c_str());
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 30, nc::WindowInfo::maxHeight / 2 + 50, "High Score:");
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 10, nc::WindowInfo::maxHeight / 2 + 60, std::to_string(highscore).c_str());
-		graphics.SetColor(nc::Color::white);
-		graphics.DrawString(nc::WindowInfo::maxWidth / 2 - 70, nc::WindowInfo::maxHeight / 2 + 100, "Press Enter to Continue");*/
+	{
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 28, engine->Get<nc::Renderer>()->GetHeight() / 2 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("gameOverTexture"), t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 15, engine->Get<nc::Renderer>()->GetHeight() / 2 + 20 };
+		texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("scoreTexture", engine->Get<nc::Renderer>());
+		texture->Create(font->CreateSurface("Final Score: " + std::to_string(score), nc::Color::orange));
+		engine->Get<nc::Renderer>()->Draw(texture, t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 15, engine->Get<nc::Renderer>()->GetHeight() / 2 + 40 };
+		texture = engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("highscoreTexture", engine->Get<nc::Renderer>());
+		texture->Create(font->CreateSurface("Highscore: " + std::to_string(highscore), nc::Color::orange));
+		engine->Get<nc::Renderer>()->Draw(texture, t);
+		t.position = { engine->Get<nc::Renderer>()->GetWidth() / 2 - 20, engine->Get<nc::Renderer>()->GetHeight() / 2 + 60 };
+		engine->Get<nc::Renderer>()->Draw(engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("startTexture"), t);
+	}
 		break;
 	default:
 		break;
 	}
 
-	engine->Draw(engine->Get<nc::Renderer>());
-	scene->Draw(engine->Get<nc::Renderer>());
-
-	// Draw
-	scene->Draw(engine->Get<nc::Renderer>());
-
-	nc::Vector2 position = engine->Get<nc::InputSystem>()->GetMousePosition();
-	//if (engine.Get<nc::InputSystem>()->GetButtonState((int)nc::InputSystem::eMouseButton::Left) == nc::InputSystem::eKeyState::Pressed)
-	//{
-	//	std::cout << position.x << " " << position.y << std::endl;
-	//	engine.Get<nc::AudioSystem>()->PlayAudio("explosion", 1, nc::RandomRange(0.2f, 2.0f));
-	//	//Create Particles
-	//	channel.SetPitch(nc::RandomRange(0.2f, 2.0f));
-	//}
-
-
-
-	/*nc::Transform t;
-	t.position = { 30, 30 };
-	engine.Get<nc::Renderer>()->Draw(textTexture, t);*/
-
-
-
 	//End Draw
 	engine->Draw(engine->Get<nc::Renderer>());
+	scene->Draw(engine->Get<nc::Renderer>());
 	engine->Get<nc::Renderer>()->EndFrame();
 }
 
@@ -324,3 +356,5 @@ void Game::SpawnPlayer()
 	else player->transform.position = { engine->Get<nc::Renderer>()->GetWidth() / 2, engine->Get<nc::Renderer>()->GetWidth() / 2 };
 	scene->AddActor(std::move(player));
 }
+
+

@@ -72,7 +72,7 @@ void Enemy::Update(float dt)
 	{
 		destroy = true;
 		scene->RemoveByTag("id:" + std::to_string(id));
-		//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 200, 1, nc::Color::red, 30, 50, 0.0f, 0.0f, nc::TwoPi);
+		scene->engine->Get<nc::ParticleSystem>()->CreateBurst(transform.position, 10, 0.5f, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/flame_blade.png", scene->engine->Get<nc::Renderer>()));
 		scene->engine->Get<nc::AudioSystem>()->PlayAudio("destroy_1");
 
 		nc::Event event;
@@ -82,7 +82,9 @@ void Enemy::Update(float dt)
 	}
 
 	// rocket particles
-	//scene->engine->Get<nc::ParticleSystem>()->Create(children[1]->transform.position, 30, 0.5f, nc::Color::yellow, speed, speed * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
+	scene->engine->Get<nc::ParticleSystem>()->Create(children[1]->transform.position, 10, 0.5f,
+		scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/particle_2.png", scene->engine->Get<nc::Renderer>()),
+		speed, speed * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
 }
 
 void Enemy::OnCollision(Actor* actor)

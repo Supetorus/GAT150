@@ -13,7 +13,7 @@ void Player::Intitialize()
 	// turret children[0]
 	std::unique_ptr turret = std::make_unique<Actor>(nc::Transform{}, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/turret_barrel.png", scene->engine->Get<nc::Renderer>()));
 	turret->transform.localPosition = nc::Vector2{ 0, 0 };
-	turret->transform.localScale = nc::Vector2{ 2, 2 };
+	//turret->transform.localScale = nc::Vector2{ 2, 2 };
 	AddChild(std::move(turret));
 
 	// rocket particles children[1]
@@ -55,7 +55,6 @@ void Player::Update(float dt)
 	velocity.CircleClamp(300);
 	velocity *= friction;
 	
-	//std::cout << velocity.x << " " << velocity.y << std::endl;
 	nc::Vector2 translation = nc::Vector2::Rotate(nc::Vector2::right, transform.rotation) * thrust;
 	transform.position += velocity * dt;
 	transform.position.x = nc::Wrap(transform.position.x, 0.0f, static_cast <float>(scene->engine->Get<nc::Renderer>()->GetWidth()));
@@ -89,6 +88,7 @@ void Player::Update(float dt)
 	if (health < 0)
 	{
 		destroy = true;
+		scene->engine->Get<nc::ParticleSystem>()->CreateBurst(children[1]->transform.position, 10, 0.5f, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/green_arrow.png", scene->engine->Get<nc::Renderer>()));
 		//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 200, 1, nc::Color::white, thrust * 1.25f, thrust * 1.25f, 0.0f, 0.0f, nc::TwoPi);
 		scene->engine->Get<nc::AudioSystem>()->PlayAudio("destroy");
 
@@ -100,9 +100,6 @@ void Player::Update(float dt)
 
 	// rocket particles
 	scene->engine->Get<nc::ParticleSystem>()->Create(children[1]->transform.position, 10, 0.15f, scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/particle_1.png", scene->engine->Get<nc::Renderer>()), thrust, thrust * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
-	//scene->engine->Get<nc::ParticleSystem>()->Create(transform.position, 30, 1.0f,
-	//	scene->engine->Get<nc::ResourceSystem>()->Get<nc::Texture>("Images/particle_1.png", scene->engine->Get<nc::Renderer>()),
-	//	thrust, thrust * 0.25f, transform.rotation + nc::Pi, 0.0f, 0.4f);
 }
 
 void Player::OnCollision(Actor* actor)
