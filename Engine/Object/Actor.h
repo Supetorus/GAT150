@@ -2,20 +2,20 @@
 #include "Object.h"
 #include "Math/Transform.h"
 #include "Scene.h"
+#include "Component/Component.h"
 #include <memory>
 #include <vector>
 
 namespace nc
 {
 	class Scene;
-	class Texture;
 	class Renderer;
 
 	class Actor : public Object
 	{
 	public:
 		Actor() {}
-		Actor(const Transform& transform, std::shared_ptr<Texture> texture = {}) : transform{ transform }, texture{ texture } {}
+		Actor(const Transform& transform) : transform{ transform } {}
 
 		virtual void Update(float dt);
 		virtual void Draw(Renderer* renderer);
@@ -29,11 +29,12 @@ namespace nc
 		bool hasTag(std::string checkTag);
 		void addTag(std::string tag);
 
+		template<class T>
+		T* AddComponent();
+
 	public:
 		bool destroy{ false };
 		std::vector<std::string> tags;
-
-		std::shared_ptr<Texture> texture;
 
 		Transform transform;
 		Scene* scene{ nullptr };
@@ -41,5 +42,18 @@ namespace nc
 		Actor* parent{ nullptr };
 		std::vector<std::unique_ptr<Actor>> children;
 		unsigned int id = 0;
+
+		std::vector<std::unique_ptr<Component>> components;
 	};
+	
+	template<class T>
+	inline T* Actor::AddComponent()
+	{
+		std::unique_ptr<T> component = std::make_unique<T>();
+		component->owner = this;
+
+		components.push_back(move(component));
+
+		return dynamic_cast<T*>(components.back().get());
+	}
 }

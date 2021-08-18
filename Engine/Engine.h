@@ -28,8 +28,12 @@
 // Framework
 #include "Framework/EventSystem.h"
 
-// objects
+// Objects
 #include "Object/Actor.h"
+
+// Components
+#include "Component/SpriteAnimationComponent.h"
+#include "Component/PhysicsComponent.h"
 
 #include <vector>
 #include <memory>

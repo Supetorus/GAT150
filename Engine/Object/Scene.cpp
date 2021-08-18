@@ -94,8 +94,8 @@ namespace nc
 		{
 			location =
 			{
-				nc::RandomRange(0.0f, engine->Get<nc::Renderer>()->GetWidth()),
-				nc::RandomRange(0.0f, engine->Get<nc::Renderer>()->GetHeight())
+				nc::RandomRange(0.0f, engine->Get<nc::Renderer>()->GetWidth() * 1.0f),
+				nc::RandomRange(0.0f, engine->Get<nc::Renderer>()->GetHeight() * 1.0f)
 			};
 			for (std::unique_ptr<Actor>& actor : actors)
 			{
