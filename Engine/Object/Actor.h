@@ -29,6 +29,7 @@ namespace nc
 		bool hasTag(std::string checkTag);
 		void addTag(std::string tag);
 
+		void AddComponent(std::unique_ptr<Component> component);
 		template<class T>
 		T* AddComponent();
 

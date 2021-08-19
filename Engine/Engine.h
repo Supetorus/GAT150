@@ -9,6 +9,11 @@
 #include "Core/FileSystem.h"
 #include "Core/Timer.h"
 
+// Framework
+#include "Framework/EventSystem.h"
+#include "Framework/Singleton.h"
+#include "Framework/Factory.h"
+
 // Math
 #include "Math/Vector2.h"
 #include "Math/Color.h"
@@ -25,9 +30,6 @@
 //Resource
 #include "Resource/ResourceSystem.h"
 
-// Framework
-#include "Framework/EventSystem.h"
-
 // Objects
 #include "Object/Actor.h"
 
@@ -41,6 +43,8 @@
 
 namespace nc
 {
+	using ObjectFactory = Singleton<Factory<std::string, Object>>;
+
 	class Engine
 	{
 	public:

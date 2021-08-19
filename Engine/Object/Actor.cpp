@@ -54,4 +54,9 @@ namespace nc
 	{
 		tags.push_back(tag);
 	}
+	void Actor::AddComponent(std::unique_ptr<Component> component)
+	{
+		component->owner = this;
+		components.push_back(std::move(component));
+	}
 }

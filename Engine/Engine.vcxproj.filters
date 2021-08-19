@@ -104,6 +104,9 @@
     <ClCompile Include="Component\SpriteAnimationComponent.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Factory.cpp">
+      <Filter>Source\Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\EventSystem.h">
@@ -195,6 +198,12 @@
     </ClInclude>
     <ClInclude Include="Component\SpriteAnimationComponent.h">
       <Filter>Source\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Singleton.h">
+      <Filter>Source\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Factory.h">
+      <Filter>Source\Framework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

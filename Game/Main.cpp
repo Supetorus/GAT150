@@ -1,9 +1,9 @@
 #include "Game.h"
 
 //#define MSG(message) std::cout << #message << std::endl;
-
 int main(int, char**)
 {
+
 	Game game;
 	game.Initialize();
 
