@@ -17,6 +17,9 @@ namespace nc
 		float& operator [] (size_t index) { return (&x)[index]; };
 		const float& operator [] (size_t index) const { return (&x)[index]; };
 
+		friend std::istream& operator >> (std::istream& stream, Vector2& v);
+		friend std::ostream& operator << (std::ostream& stream, Vector2& v);
+
 		void Set(float x, float y) { this->x = x; this->y = y;}
 
 		Vector2 operator + (const Vector2& v) const { return Vector2{ x + v.x, y + v.y }; };

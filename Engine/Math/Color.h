@@ -19,6 +19,9 @@ namespace nc
 			b = ((rgb >> 16) & 0xff) / 255.0f;
 		}
 
+		const float& operator [] (size_t index) const { return (&r)[index]; };
+		float& operator [] (size_t index) { return (&r)[index]; };
+
 		Color operator + (const Color& color) { return {r + color.r, g + color.g, b + color.b}; }
 		Color operator - (const Color& color) { return {r - color.r, g - color.g, b - color.b}; }
 		Color operator * (float s) const { return { r * s, g * s , b * s }; };
