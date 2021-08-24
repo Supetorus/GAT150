@@ -39,7 +39,7 @@ namespace nc
 		bool Get(const rapidjson::Value& value, const std::string& name, float& data)
 		{
 			// check if 'name' member exists and is of type
-			if (value.HasMember(name.c_str()) == false || value[name.c_str()].IsFloat() == false)
+			if (value.HasMember(name.c_str()) == false || value[name.c_str()].IsNumber() == false)
 			{
 				return false;
 			}

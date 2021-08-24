@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "../Math/Vector2.h"
+#include "Core/Serializable.h"
 #include <list>
 #include <memory>
 #include <vector>
@@ -14,7 +15,7 @@ namespace nc
 
 	class Renderer;
 
-	class Scene
+	class Scene : public Object, public ISerializable
 	{
 	public:
 		void Update(float dt);
@@ -33,6 +34,10 @@ namespace nc
 		std::vector<T*> GetActors();
 
 		int ActorCount();
+
+		// Inherited via ISerializable
+		virtual bool Write(const rapidjson::Value& value) const override;
+		virtual bool Read(const rapidjson::Value& value) override;
 
 	public:
 		Engine* engine{ nullptr };

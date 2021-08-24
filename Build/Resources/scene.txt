@@ -1,0 +1,30 @@
+{
+   "actors":[
+      {
+         "type":"Actor",
+         "tag":"Player",
+         "transform":{
+            "position":[
+               400,
+               300
+            ],
+            "rotation":45
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"sf2.png"
+            },
+            {
+               "type":"PhysicsComponent"
+            },
+            {
+               "type":"SpriteAnimationComponent",
+               "fps":24,
+               "numFramesX":8,
+               "numFramesY":8
+            }
+         ]
+      }
+   ]
+}
