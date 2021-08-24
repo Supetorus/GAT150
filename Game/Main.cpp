@@ -10,7 +10,7 @@ int main(int, char**)
 	rapidjson::Document document;
 	bool success = nc::json::Load("json.txt", document);
 	assert(success);
-
+	 
 	std::string str;
 	nc::json::Get(document, "string", str);
 	std::cout << str << std::endl;
