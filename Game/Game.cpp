@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "GameComponent/PlayerComponent.h"
 
 void Game::Initialize()
 {
@@ -9,6 +10,10 @@ void Game::Initialize()
 
 	// Create renderer
 	engine->Get<nc::Renderer>()->Create("GAT150", 1500, 800);
+
+	// register classes
+	//nc::ObjectFactory::Instance().Register<PlayerComponent>("PlayerComponent");
+	REGISTER_CLASS(PlayerComponent);
 
 	// Create Scene
 	scene = std::make_unique<nc::Scene>();

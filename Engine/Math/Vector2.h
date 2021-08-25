@@ -1,4 +1,5 @@
 #pragma once
+#include "box2d/box2d.h"
 #include <cmath>
 #include <iostream>
 
@@ -13,6 +14,7 @@ namespace nc
 		Vector2(float x, float y) : x{ x }, y{ y } {};
 		Vector2(int x, int y) : x{ static_cast<float>(x) }, y{ static_cast<float>(y) } {};
 		Vector2(unsigned int x, unsigned int y) : x{ static_cast<float>(x) }, y{ static_cast<float>(y) } {};
+		Vector2(const b2Vec2& v2) : x{ v2.x }, y{ v2.y } {}
 
 		float& operator [] (size_t index) { return (&x)[index]; };
 		const float& operator [] (size_t index) const { return (&x)[index]; };
@@ -49,6 +51,8 @@ namespace nc
 
 		bool operator < (float s) const { return x + y < s; }
 		bool operator > (float s) const { return x + y > s; }
+
+		operator b2Vec2() const { return b2Vec2{ x, y }; }
 
 		float Length() const;
 		float LengthSqr() const;

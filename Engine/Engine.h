@@ -1,6 +1,6 @@
 #pragma once
 
-#define REGISTER_CLASS(CLASS) ObjectFactory::Instance().Register<nc::CLASS>(#CLASS);
+#define REGISTER_CLASS(CLASS) nc::ObjectFactory::Instance().Register<CLASS>(#CLASS);
 
 // Systems
 #include "Audio/AudioSystem.h"
@@ -30,6 +30,10 @@
 #include "Graphics/Texture.h"
 #include "Graphics/ParticleSystem.h"
 #include "Graphics/Font.h"
+
+// Physics System
+#include "Physics/PhysicsSystem.h"
+#include "Component/RBPhysicsComponent.h"
 
 //Resource
 #include "Resource/ResourceSystem.h"

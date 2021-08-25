@@ -36,6 +36,9 @@
     <Filter Include="Source\Component">
       <UniqueIdentifier>{2f404efd-8ec4-4338-8ad3-f3f9e16aa066}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Physics">
+      <UniqueIdentifier>{bb4d2a91-772b-4f84-900a-39ba27526d64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\EventSystem.cpp">
@@ -109,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="Core\Json.cpp">
       <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\RBPhysicsComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsSystem.cpp">
+      <Filter>Source\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +222,12 @@
     </ClInclude>
     <ClInclude Include="Core\Serializable.h">
       <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\RBPhysicsComponent.h">
+      <Filter>Source\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsSystem.h">
+      <Filter>Source\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
