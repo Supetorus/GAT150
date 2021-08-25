@@ -12,12 +12,12 @@ int main(int, char**)
 	//assert(success);
 	// 
 	//std::string string;
-	//JSON_READ(document, string)
+	////JSON_READ(document, string)
 	//std::cout << string << std::endl;
 
 	//bool boolean;
-	//JSON_READ(document, boolean)
-	////nc::json::Get(document, "boolean", b);
+	////JSON_READ(document, boolean)
+	//nc::json::Get(document, "boolean", boolean);
 	//std::cout << boolean << std::endl;
 
 	//int i1;
