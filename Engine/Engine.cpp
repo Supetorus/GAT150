@@ -15,8 +15,6 @@ namespace nc
 
 		std::for_each(systems.begin(), systems.end(), [](auto& system) { system->Startup(); });
 
-
-		//actor,sprite component
 		REGISTER_CLASS(Actor)
 		REGISTER_CLASS(SpriteComponent)
 		REGISTER_CLASS(SpriteAnimationComponent)

@@ -27,6 +27,8 @@ namespace nc
 		void RemoveByTag(const std::string& tag);
 		Vector2 SafeLocation(float radius, float buffer);
 
+		Actor* FindActor(const std::string& name);
+
 		template<typename T>
 		T* GetActor();
 

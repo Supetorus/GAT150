@@ -55,18 +55,22 @@ namespace nc
 	{
 		tags.push_back(tag);
 	}
+
 	void Actor::AddComponent(std::unique_ptr<Component> component)
 	{
 		component->owner = this;
 		components.push_back(std::move(component));
 	}
+
 	bool Actor::Write(const rapidjson::Value& value) const
 	{
 		return false;
 	}
+
 	bool Actor::Read(const rapidjson::Value& value)
 	{
 		JSON_READ(value, tag);
+		JSON_READ(value, name);
 		if (value.HasMember("transform"))
 		{
 			transform.Read(value["transform"]);

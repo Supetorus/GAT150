@@ -52,6 +52,7 @@ namespace nc
 	{
 		return false;
 	}
+
 	bool Scene::Read(const rapidjson::Value& value)
 	{
 		if (value.HasMember("actors") && value["actors"].IsArray())
@@ -70,8 +71,6 @@ namespace nc
 				}
 			}
 		}
-
-
 
 		return true;
 	}
@@ -132,6 +131,16 @@ namespace nc
 		}
 		return location;
 	}
+
+	Actor* Scene::FindActor(const std::string& name)
+	{
+		for (auto& actor : actors)
+		{
+			if (actor->name == name) return actor.get();
+		}
+		return nullptr;
+	}
+
 	int Scene::ActorCount()
 	{
 		return actors.size();

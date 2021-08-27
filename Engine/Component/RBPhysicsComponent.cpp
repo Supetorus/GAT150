@@ -9,6 +9,8 @@ namespace nc
 		{
 			body = owner->scene->engine->Get<PhysicsSystem>()->CreateBody(
 				owner->transform.position, owner->transform.rotation, data, owner);
+			body->SetGravityScale(data.gravityScale);
+			body->SetLinearDamping(1);
 		}
 
 		owner->transform.position = PhysicsSystem::WorldToScreen(body->GetPosition());

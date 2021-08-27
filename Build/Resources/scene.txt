@@ -2,6 +2,7 @@
    "actors":[
       {
          "type":"Actor",
+         "name":"Player",
          "tag":"Player",
          "transform":{
             "position":[
@@ -11,28 +12,59 @@
          },
          "components":[
             {
-               "type":"Player",
-               "speed":50
-            },
-            {
-               "type":"SpriteComponent",
-               "textureName":"sf2.png"
+               "type":"PlayerComponent",
+               "speed":10
             },
             {
                "type":"RBPhysicsComponent",
                "data.isDynamic":true,
                "data.density":1,
-               "data.size":[
-                  64,
-                  96
-               ],
-               "data.lockAngle":true
+               "data.size":[ 32, 32 ],
+               "data.lockAngle":true,
+               "data.restitution":1,
+               "data.gravityScale":1
             },
             {
                "type":"SpriteAnimationComponent",
-               "fps":24,
-               "numFramesX":8,
-               "numFramesY":8
+               "textureName":"characters.png",
+               "fps":10,
+               "numFramesX":18,
+               "numFramesY":11,
+               "startFrame":90,
+               "endFrame":95
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"Enemy",
+         "transform":{
+            "position":[
+               500,
+               200
+            ]
+         },
+         "components":[
+            {
+               "type":"EnemyComponent",
+               "speed":50
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":true,
+               "data.isSensor":true,
+               "data.density":1,
+               "data.size":[ 32, 32 ],
+               "data.lockAngle":true,
+               "data.restitution":1,
+               "data.gravityScale":0
+            },
+            {
+               "type":"SpriteAnimationComponent",
+               "textureName":"bat.png",
+               "fps":10,
+               "numFramesX":4,
+               "numFramesY":1
             }
          ]
       },

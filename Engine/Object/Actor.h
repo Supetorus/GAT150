@@ -45,6 +45,7 @@ namespace nc
 		std::vector<std::string> tags;
 
 		std::string tag; // temporary remove later
+		std::string name;
 
 		Transform transform;
 		Scene* scene{ nullptr };

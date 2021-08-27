@@ -13,7 +13,7 @@ void PlayerComponent::Update()
 	}
 	if (owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_D) == InputSystem::eKeyState::Held)
 	{
-		force.x -= speed;
+		force.x += speed;
 	}
 
 	PhysicsComponent* physicsComponent = owner->GetComponent<PhysicsComponent>();
