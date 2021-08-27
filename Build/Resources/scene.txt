@@ -2,6 +2,29 @@
    "actors":[
       {
          "type":"Actor",
+         "name":"Score",
+         "transform":{
+            "position":[
+               60,
+               20
+            ]
+         },
+         "components":[
+            {
+               "type":"TextComponent",
+               "fontName":"fonts/cambriab.ttf",
+               "fontSize":16,
+               "color":[
+                  1,
+                  1,
+                  1
+               ],
+               "text":"Hello World!"
+            }
+         ]
+      },
+      {
+         "type":"Actor",
          "name":"Player",
          "tag":"Player",
          "transform":{
@@ -16,10 +39,18 @@
                "speed":10
             },
             {
+               "type":"AudioComponent",
+               "soundName":"Audio/grunt.wav",
+               "playOnAwake":true
+            },
+            {
                "type":"RBPhysicsComponent",
                "data.isDynamic":true,
                "data.density":1,
-               "data.size":[ 32, 32 ],
+               "data.size":[
+                  32,
+                  32
+               ],
                "data.lockAngle":true,
                "data.restitution":1,
                "data.gravityScale":1
@@ -54,7 +85,10 @@
                "data.isDynamic":true,
                "data.isSensor":true,
                "data.density":1,
-               "data.size":[ 32, 32 ],
+               "data.size":[
+                  32,
+                  32
+               ],
                "data.lockAngle":true,
                "data.restitution":1,
                "data.gravityScale":0

@@ -1,0 +1,30 @@
+#pragma once
+#include "Component.h"
+#include "GraphicsComponent.h"
+
+namespace nc
+{
+	class Texture;
+	class Font;
+
+	class TextComponent : public GraphicsComponent
+	{
+	public:
+		virtual void Update() override;
+		virtual void Draw(Renderer* renderer) override;
+
+		void SetText(const std::string& text);
+
+		virtual bool Write(const rapidjson::Value& value) const;
+		virtual bool Read(const rapidjson::Value& value);
+
+	public:
+		std::string fontName;
+		int fontSize;
+		Color color;
+		std::string text;
+
+		std::shared_ptr<Font> font;
+		std::shared_ptr<Texture> texture;
+	};
+}
