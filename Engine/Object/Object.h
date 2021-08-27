@@ -6,5 +6,7 @@ namespace nc
 	{
 	public:
 		virtual ~Object() {}
+
+		virtual void Create() {}
 	};
 }

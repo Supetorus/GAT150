@@ -30,16 +30,32 @@ namespace nc
 	{
 	}
 
+	void Actor::BeginContact(Actor* other)
+	{
+		Event event;
+		
+		event.name = "collision_enter";
+		event.data = other;
+		event.receiver = this;
+
+		scene->engine->Get<EventSystem>()->Notify(event);
+	}
+
+	void Actor::EndContact(Actor* other)
+	{
+		Event event;
+
+		event.name = "collision_exit";
+		event.data = other;
+		event.receiver = this;
+
+		scene->engine->Get<EventSystem>()->Notify(event);
+	}
+
 	void Actor::AddChild(std::unique_ptr<Actor> actor)
 	{
 		actor->parent = this;
 		children.push_back(std::move(actor));
-	}
-
-	float Actor::GetRadius()
-	{
-		//return std::max(texture->GetSize().x, texture->GetSize().y) * 0.5f;
-		return 0;
 	}
 
 	bool Actor::hasTag(std::string checkTag)
@@ -88,6 +104,7 @@ namespace nc
 				{
 					component->owner = this;
 					component->Read(componentValue);
+					component->Create();
 					AddComponent(std::move(component));
 				}
 			}

@@ -10,8 +10,8 @@ namespace nc
     {
         b2Vec2 gravity{ 0, 10 };
         world = std::make_unique<b2World>(gravity);
-        //contactListener = std::make_unique<ContactListener>();
-        //world->SetContactListener(contactListener.get());
+        contactListener = std::make_unique<ContactListener>();
+        world->SetContactListener(contactListener.get());
     }
 
     void PhysicsSystem::Shutdown()

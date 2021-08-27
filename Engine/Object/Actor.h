@@ -21,10 +21,10 @@ namespace nc
 		virtual void Draw(Renderer* renderer);
 		virtual void Intitialize();
 
-		virtual void OnCollision(Actor* actor) {}
-		void AddChild(std::unique_ptr<Actor> actor);
+		void BeginContact(Actor* other);
+		void EndContact(Actor* other);
 
-		float GetRadius();
+		void AddChild(std::unique_ptr<Actor> actor);
 
 		bool hasTag(std::string checkTag);
 		void addTag(std::string tag);

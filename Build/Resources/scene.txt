@@ -52,7 +52,7 @@
                   32
                ],
                "data.lockAngle":true,
-               "data.restitution":1,
+               "data.restitution":0.5,
                "data.gravityScale":1
             },
             {
@@ -62,7 +62,28 @@
                "numFramesX":18,
                "numFramesY":11,
                "startFrame":90,
-               "endFrame":95
+               "endFrame":95,
+               "sequences":[
+                    {
+                        "name":"idle",
+                        "sequence.fps":5,
+                        "sequence.startFrame":0,
+                        "sequence.endFrame":1
+                    },
+                    {
+                        "name":"walk_right",
+                        "sequence.fps":10,
+                        "sequence.startFrame":90,
+                        "sequence.endFrame":95
+                    },
+                    {
+                        "name":"walk_left",
+                        "sequence.fps":10,
+                        "sequence.startFrame":162,
+                        "sequence.endFrame":167
+                    }
+               ],
+               "defaultSequence":"idle"
             }
          ]
       },
@@ -78,7 +99,7 @@
          "components":[
             {
                "type":"EnemyComponent",
-               "speed":50
+               "speed":5
             },
             {
                "type":"RBPhysicsComponent",
