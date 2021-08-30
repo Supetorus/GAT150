@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameComponent\EnemyComponent.cpp" />
+    <ClCompile Include="GameComponent\PickupComponent.cpp" />
     <ClCompile Include="GameComponent\PlayerComponent.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameComponent\EnemyComponent.h" />
+    <ClInclude Include="GameComponent\PickupComponent.h" />
     <ClInclude Include="GameComponent\PlayerComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

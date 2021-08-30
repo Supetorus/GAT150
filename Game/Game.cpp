@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "GameComponent/PlayerComponent.h"
 #include "GameComponent/EnemyComponent.h"
+#include "GameComponent/PickupComponent.h"
+
 
 void Game::Initialize()
 {
@@ -13,9 +15,9 @@ void Game::Initialize()
 	engine->Get<nc::Renderer>()->Create("GAT150", 1500, 800);
 
 	// register classes
-	//nc::ObjectFactory::Instance().Register<PlayerComponent>("PlayerComponent");
 	REGISTER_CLASS(PlayerComponent);
 	REGISTER_CLASS(EnemyComponent);
+	REGISTER_CLASS(PickupComponent);
 
 	// Create Scene
 	scene = std::make_unique<nc::Scene>();
