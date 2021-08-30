@@ -15,7 +15,10 @@ namespace nc
 	{
 	public:
 		Actor() {}
+		Actor(const Actor& other);
 		Actor(const Transform& transform) : transform{ transform } {}
+
+		std::unique_ptr<Object> Clone() const { return std::make_unique<Actor>(*this); }
 
 		virtual void Update(float dt);
 		virtual void Draw(Renderer* renderer);

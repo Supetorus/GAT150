@@ -27,6 +27,7 @@ namespace nc
 		virtual void Update(float dt) override;
 
 		void Subscribe(const std::string& name, function_t function, Object* receiver = nullptr);
+		void Unsubscribe(const std::string& name, Object* receiver);
 		void Notify(const Event& event);
 		
 	private:

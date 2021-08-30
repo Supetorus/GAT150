@@ -16,6 +16,8 @@ namespace nc
 		};
 
 	public:
+		std::unique_ptr<Object> Clone() const { return std::make_unique<SpriteAnimationComponent>(*this); }
+		
 		void Update() override;
 		void Draw(Renderer* renderer) override;
 

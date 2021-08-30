@@ -25,6 +25,8 @@
       },
       {
          "type":"Actor",
+         "prototype":true,
+         "name":"Coin",
          "tag":"coin_1",
          "transform":{
             "position":[
