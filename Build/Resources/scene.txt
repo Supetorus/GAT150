@@ -170,7 +170,8 @@
       },
       {
          "type":"Actor",
-         "tag":"Ground",
+         "tag":"ground",
+         "name":"ground",
          "transform":{
             "position":[
                400,

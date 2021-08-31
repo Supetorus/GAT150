@@ -35,7 +35,7 @@ void Game::Initialize()
 	assert(success);
 	scene->Read(document);
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		auto actor = nc::ObjectFactory::Instance().Create<nc::Actor>("Coin");
 		actor->transform.position = nc::Vector2{ nc::RandomRange(0, 800), nc::RandomRange(100, 300) };

@@ -15,7 +15,7 @@ void PlayerComponent::Create()
 	owner->scene->engine->Get<EventSystem>()->Subscribe("collision_enter",
 		std::bind(&PlayerComponent::onCollisionEnter, this, std::placeholders::_1), owner);
 	owner->scene->engine->Get<EventSystem>()->Subscribe("collision_exit",
-		std::bind(&PlayerComponent::onCollisionEnter, this, std::placeholders::_1), owner);
+		std::bind(&PlayerComponent::onCollisionExit, this, std::placeholders::_1), owner);
 	owner->scene->engine->Get<AudioSystem>()->AddAudio("hurt", "hurt.wav");
 }
 
@@ -75,8 +75,6 @@ void PlayerComponent::onCollisionEnter(const Event& event)
 	{
 		owner->scene->engine->Get<AudioSystem>()->PlayAudio("hurt");
 	}
-	
-	//std::cout << actor->tag << std::endl;
 }
 
 void PlayerComponent::onCollisionExit(const Event& event)
@@ -87,5 +85,4 @@ void PlayerComponent::onCollisionExit(const Event& event)
 	{
 		contacts.remove(actor);
 	}
-	//std::cout << actor->tag << std::endl;
 }
