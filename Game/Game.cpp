@@ -35,7 +35,14 @@ void Game::Initialize()
 	assert(success);
 	scene->Read(document);
 
-	for (int i = 0; i < 0; i++)
+	nc::Tilemap tilemap;
+	tilemap.scene = scene.get();
+	success = nc::json::Load("map.txt", document);
+	assert(success);
+	tilemap.Read(document);
+	tilemap.Create();
+
+	for (int i = 0; i < 10; i++)
 	{
 		auto actor = nc::ObjectFactory::Instance().Create<nc::Actor>("Coin");
 		actor->transform.position = nc::Vector2{ nc::RandomRange(0, 800), nc::RandomRange(100, 300) };

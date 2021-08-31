@@ -19,5 +19,7 @@ namespace nc
 
 	public:
 		std::shared_ptr<nc::Texture> texture;
+
+		SDL_Rect rect;
 	};
 }
