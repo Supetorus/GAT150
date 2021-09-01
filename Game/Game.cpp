@@ -12,7 +12,8 @@ void Game::Initialize()
 	engine->time.timeScale = 1.0f;
 
 	// Create renderer
-	engine->Get<nc::Renderer>()->Create("GAT150", 1500, 800);
+	//engine->Get<nc::Renderer>()->Create("GAT150", 1500, 800);
+	engine->Get<nc::Renderer>()->Create("GAT150", 768, 640);
 
 	// register classes
 	REGISTER_CLASS(PlayerComponent);

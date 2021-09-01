@@ -96,7 +96,7 @@
                   32
                ],
                "data.lockAngle":true,
-               "data.restitution":0.5,
+               "data.restitution":0,
                "data.gravityScale":1
             },
             {
@@ -172,6 +172,7 @@
          "type":"Actor",
          "tag":"ground",
          "name":"ground",
+         "prototype":true,
          "transform":{
             "position":[
                400,
@@ -196,9 +197,8 @@
       },
       {
          "type":"Actor",
-         "tag":"ground",
          "prototype": true,
-         "name":"tile01",
+         "name":"wood_vertical",
          "transform":{
             "scale":[
                2,
@@ -209,7 +209,36 @@
             {
                "type":"SpriteComponent",
                "textureName":"tiles.png",
-               "rect":[416, 128, 32, 32]
+               "rect":[320, 416, 32, 32]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.restitution":0,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"ground",
+         "prototype": true,
+         "name":"wood_horizontal",
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"tiles.png",
+               "rect":[352, 416, 32, 32]
             },
             {
                "type":"RBPhysicsComponent",
@@ -226,7 +255,7 @@
          "type":"Actor",
          "tag":"ground",
          "prototype": true,
-         "name":"tile02",
+         "name":"crate_1",
          "transform":{
             "scale":[
                2,
@@ -237,7 +266,119 @@
             {
                "type":"SpriteComponent",
                "textureName":"tiles.png",
-               "rect":[0, 128, 32, 32]
+               "rect":[0, 224, 32, 32]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"ground",
+         "prototype": true,
+         "name":"crate_2",
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"tiles.png",
+               "rect":[0, 352, 32, 32]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"ground",
+         "prototype": true,
+         "name":"hazard_crate",
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"tiles.png",
+               "rect":[0, 256, 32, 32]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"ground",
+         "prototype": true,
+         "name":"red_brick",
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"tiles.png",
+               "rect":[128, 224, 32, 32]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"ground",
+         "prototype": true,
+         "name":"light_brick",
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"tiles.png",
+               "rect":[256, 32, 32, 32]
             },
             {
                "type":"RBPhysicsComponent",
