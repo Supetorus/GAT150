@@ -34,6 +34,10 @@ void PlayerComponent::Update()
 	{
 		force.y -= jump;
 	}
+	//if (owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == InputSystem::eKeyState::Pressed)
+	//{
+	//	owner->GetComponent<SpriteAnimationComponent>()->StartSequence("attack");
+	//}
 
 	PhysicsComponent* physicsComponent = owner->GetComponent<PhysicsComponent>();
 	assert(physicsComponent);

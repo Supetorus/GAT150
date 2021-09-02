@@ -76,26 +76,28 @@
             "position":[
                400,
                300
-            ]
+            ],
+            "scale":[1.5,1.5]
          },
          "components":[
             {
                "type":"PlayerComponent",
-               "speed":5,
-               "jump":150
+               "speed":15,
+               "jump":300
             },
             {
                "type":"AudioComponent",
                "soundName":"Audio/grunt.wav",
-               "playOnAwake":true
+               "playOnAwake":false
             },
             {
                "type":"RBPhysicsComponent",
                "data.isDynamic":true,
                "data.density":1,
+               "data.friction":0.1,
                "data.size":[
-                  16,
-                  32
+                  24,
+                  48
                ],
                "data.lockAngle":true,
                "data.restitution":0,
@@ -191,6 +193,7 @@
                "data.isDynamic":false,
                "data.density":1,
                "data.restitution":0,
+               "data.friction":0,
                "data.size":[
                   64,
                   64
@@ -219,6 +222,8 @@
                "type":"RBPhysicsComponent",
                "data.isDynamic":false,
                "data.density":1,
+               "data.restitution":0,
+               "data.friction":0.1,
                "data.size":[
                   64,
                   64
@@ -231,12 +236,6 @@
          "tag":"ground",
          "prototype": true,
          "name":"crate_1",
-         "transform":{
-            "scale":[
-               2,
-               2
-            ]
-         },
          "components":[
             {
                "type":"SpriteComponent",
@@ -245,11 +244,11 @@
             },
             {
                "type":"RBPhysicsComponent",
-               "data.isDynamic":false,
+               "data.isDynamic":true,
                "data.density":1,
                "data.size":[
-                  64,
-                  64
+                  32,
+                  32
                ]
             }
          ]
@@ -259,12 +258,6 @@
          "tag":"ground",
          "prototype": true,
          "name":"crate_2",
-         "transform":{
-            "scale":[
-               2,
-               2
-            ]
-         },
          "components":[
             {
                "type":"SpriteComponent",
@@ -273,11 +266,11 @@
             },
             {
                "type":"RBPhysicsComponent",
-               "data.isDynamic":false,
+               "data.isDynamic":true,
                "data.density":1,
                "data.size":[
-                  64,
-                  64
+                  32,
+                  32
                ]
             }
          ]
@@ -287,12 +280,6 @@
          "tag":"ground",
          "prototype": true,
          "name":"hazard_crate",
-         "transform":{
-            "scale":[
-               2,
-               2
-            ]
-         },
          "components":[
             {
                "type":"SpriteComponent",
@@ -301,11 +288,11 @@
             },
             {
                "type":"RBPhysicsComponent",
-               "data.isDynamic":false,
+               "data.isDynamic":true,
                "data.density":1,
                "data.size":[
-                  64,
-                  64
+                  32,
+                  32
                ]
             }
          ]
