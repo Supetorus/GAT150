@@ -5,7 +5,7 @@ namespace nc
 {
 	void Tilemap::Create()
 	{
-		for (size_t i = 0; i < tiles.size(); i++)
+		for (int i = 0; i < tiles.size(); i++)
 		{
 			int index = tiles[i];
 			if (index == 0) continue;

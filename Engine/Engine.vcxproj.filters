@@ -261,5 +261,8 @@
     <Text Include="..\Build\Resources\map.txt">
       <Filter>Resources</Filter>
     </Text>
+    <Text Include="..\Build\Resources\title.txt">
+      <Filter>Resources</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -71,6 +71,7 @@
          "type":"Actor",
          "name":"Player",
          "tag":"player",
+         "prototype":true,
          "transform":{
             "position":[
                400,
@@ -80,7 +81,8 @@
          "components":[
             {
                "type":"PlayerComponent",
-               "speed":10
+               "speed":5,
+               "jump":150
             },
             {
                "type":"AudioComponent",
@@ -92,7 +94,7 @@
                "data.isDynamic":true,
                "data.density":1,
                "data.size":[
-                  32,
+                  16,
                   32
                ],
                "data.lockAngle":true,
@@ -165,33 +167,6 @@
                "fps":10,
                "numFramesX":4,
                "numFramesY":1
-            }
-         ]
-      },
-      {
-         "type":"Actor",
-         "tag":"ground",
-         "name":"ground",
-         "prototype":true,
-         "transform":{
-            "position":[
-               400,
-               550
-            ]
-         },
-         "components":[
-            {
-               "type":"SpriteComponent",
-               "textureName":"ground.png"
-            },
-            {
-               "type":"RBPhysicsComponent",
-               "data.isDynamic":false,
-               "data.density":1,
-               "data.size":[
-                  800,
-                  20
-               ]
             }
          ]
       },
