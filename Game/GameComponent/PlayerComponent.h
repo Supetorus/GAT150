@@ -15,10 +15,14 @@ public:
 	virtual bool Read(const rapidjson::Value& value) override;
 	virtual bool Write(const rapidjson::Value& value) const override;
 
+	bool isAttacking() { return attackTimer < 1.0f; }
+
 public:
 	float speed{ 0 };
 	float jump{ 0 };
 
 private:
 	std::list<nc::Actor*> contacts;
+	bool facingRight{ true };
+	float attackTimer{ 0 };
 };

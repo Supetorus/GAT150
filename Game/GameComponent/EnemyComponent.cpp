@@ -1,8 +1,17 @@
 #include "EnemyComponent.h"
 #include "Engine.h"
+#include "PlayerComponent.h"
 
 using namespace nc;
 
+
+
+void EnemyComponent::Create()
+{
+	owner->scene->engine->Get<EventSystem>()->Subscribe("collision_enter",
+		std::bind(&EnemyComponent::onCollisionEnter, this, std::placeholders::_1), owner);
+	owner->scene->engine->Get<AudioSystem>()->AddAudio("splat", "splat.mp3");
+}
 
 void EnemyComponent::Update()
 {
@@ -29,4 +38,22 @@ bool EnemyComponent::Read(const rapidjson::Value& value)
 bool EnemyComponent::Write(const rapidjson::Value& value) const
 {
 	return false;
+}
+
+void EnemyComponent::onCollisionEnter(const nc::Event& event)
+{
+	void* p = std::get<void*>(event.data);
+	Actor* actor = reinterpret_cast<Actor*>(p);
+	if (istring_compare(actor->tag, "player"))
+	{
+		PlayerComponent* playerComponent = actor->GetComponent<PlayerComponent>();
+		if (playerComponent)
+		{
+			if (playerComponent->isAttacking())
+			{
+				owner->destroy = true;
+				owner->scene->engine->Get<AudioSystem>()->PlayAudio("splat");
+			}
+		}
+	}
 }

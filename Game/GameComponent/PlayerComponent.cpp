@@ -21,23 +21,28 @@ void PlayerComponent::Create()
 
 void PlayerComponent::Update()
 {
+	attackTimer += owner->scene->engine->time.deltaTime;
+
 	Vector2 force = Vector2::zero;
 	if (owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_A) == InputSystem::eKeyState::Held)
 	{
 		force.x -= speed;
+		facingRight = false;
 	}
 	if (owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_D) == InputSystem::eKeyState::Held)
 	{
 		force.x += speed;
+		facingRight = true;
 	}
 	if (contacts.size() > 0 && owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_W) == InputSystem::eKeyState::Pressed)
 	{
 		force.y -= jump;
 	}
-	//if (owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == InputSystem::eKeyState::Pressed)
-	//{
-	//	owner->GetComponent<SpriteAnimationComponent>()->StartSequence("attack");
-	//}
+
+	if (attackTimer > 2.0f && owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == InputSystem::eKeyState::Pressed)
+	{
+		attackTimer = 0;
+	}
 
 	PhysicsComponent* physicsComponent = owner->GetComponent<PhysicsComponent>();
 	assert(physicsComponent);
@@ -46,13 +51,22 @@ void PlayerComponent::Update()
 
 	SpriteAnimationComponent* spriteAnimationComponent = owner->GetComponent<SpriteAnimationComponent>();
 	assert(spriteAnimationComponent);
-	//if (force.x > 0) spriteAnimationComponent->StartSequence("walk_right");
-	//else if (force.x < 0) spriteAnimationComponent->StartSequence("walk_left");
-	//else spriteAnimationComponent->StartSequence("idle");
-
-	if (owner->GetComponent<PhysicsComponent>()->velocity.x > 0.1) spriteAnimationComponent->StartSequence("walk_right");
-	else if (owner->GetComponent<PhysicsComponent>()->velocity.x < -0.1) spriteAnimationComponent->StartSequence("walk_left");
-	else spriteAnimationComponent->StartSequence("idle");
+	
+	//facingRight = owner->GetComponent<PhysicsComponent>()->velocity.x >= 0;
+	if (facingRight)
+	{
+		if (isAttacking()) spriteAnimationComponent->StartSequence("attack_right");
+		else if (contacts.size() == 0) spriteAnimationComponent->StartSequence("jump_right");
+		else if (owner->GetComponent<PhysicsComponent>()->velocity.x >= 0.1f) spriteAnimationComponent->StartSequence("walk_right");
+		else spriteAnimationComponent->StartSequence("idle_right");
+	}
+	else
+	{
+		if (isAttacking()) spriteAnimationComponent->StartSequence("attack_left");
+		else if (contacts.size() == 0) spriteAnimationComponent->StartSequence("jump_left");
+		else if (owner->GetComponent<PhysicsComponent>()->velocity.x < -0.1f) spriteAnimationComponent->StartSequence("walk_left");
+		else spriteAnimationComponent->StartSequence("idle_left");
+	}
 }
 
 bool PlayerComponent::Read(const rapidjson::Value& value)
