@@ -47,7 +47,6 @@ void Game::Update()
 	engine->Update();
 
 	if (!quit) quit = (engine->Get<nc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nc::InputSystem::eKeyState::Pressed);
-	// Update
 
 	switch (state)
 	{
@@ -142,7 +141,7 @@ void Game::StartLevel()
 		auto player = nc::ObjectFactory::Instance().Create<nc::Actor>("Player");
 		player->transform.position = { 400, 200 };
 		scene->AddActor(std::move(player));
-		
+
 		spawnTimer = 2;
 		state = eState::Level;
 	}
@@ -156,8 +155,22 @@ void Game::Level()
 		spawnTimer = nc::RandomRange(2, 4);
 
 		auto coin = nc::ObjectFactory::Instance().Create<nc::Actor>("Coin");
-		coin->transform.position = { nc::RandomRangeInt(100, 700), 100 };
+		//coin->transform.position = { nc::RandomRangeInt(100, 700), 100 };
+		coin->transform.position = spawnLocations[nc::RandomRangeInt(0, spawnLocations.size()-1)];
 		scene->AddActor(std::move(coin));
+	}
+	
+	
+	//auto enemy = nc::ObjectFactory::Instance().Create<nc::Actor>("Enemy");
+	//enemy->transform.position = { 50, 50 };
+	//scene->AddActor(std::move(enemy));
+
+
+	if (!scene->FindActor("Enemy"))
+	{
+		auto enemy = nc::ObjectFactory::Instance().Create<nc::Actor>("Enemy");
+		enemy->transform.position = { 50, 50 };
+		scene->AddActor(std::move(enemy));
 	}
 }
 

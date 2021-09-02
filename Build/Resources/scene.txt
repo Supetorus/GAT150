@@ -82,8 +82,8 @@
          "components":[
             {
                "type":"PlayerComponent",
-               "speed":15,
-               "jump":300
+               "speed":10,
+               "jump":550
             },
             {
                "type":"AudioComponent",
@@ -101,7 +101,7 @@
                ],
                "data.lockAngle":true,
                "data.restitution":0,
-               "data.gravityScale":1
+               "data.gravityScale":2
             },
             {
                "type":"SpriteAnimationComponent",
@@ -204,13 +204,9 @@
       
       {
          "type":"Actor",
+         "name":"Enemy",
          "tag":"Enemy",
-         "transform":{
-            "position":[
-               500,
-               200
-            ]
-         },
+         "prototype":true,
          "components":[
             {
                "type":"EnemyComponent",
@@ -412,6 +408,8 @@
                "type":"RBPhysicsComponent",
                "data.isDynamic":false,
                "data.density":1,
+               "data.restitution":0,
+               "data.friction":0.1,
                "data.size":[
                   64,
                   64

@@ -17,6 +17,7 @@ void PlayerComponent::Create()
 	owner->scene->engine->Get<EventSystem>()->Subscribe("collision_exit",
 		std::bind(&PlayerComponent::onCollisionExit, this, std::placeholders::_1), owner);
 	owner->scene->engine->Get<AudioSystem>()->AddAudio("hurt", "hurt.wav");
+	owner->scene->engine->Get<AudioSystem>()->AddAudio("metal_scrape", "metal_scrape.mp3");
 }
 
 void PlayerComponent::Update()
@@ -42,6 +43,7 @@ void PlayerComponent::Update()
 	if (attackTimer > 2.0f && owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == InputSystem::eKeyState::Pressed)
 	{
 		attackTimer = 0;
+		owner->scene->engine->Get<AudioSystem>()->PlayAudio("metal_scrape");
 	}
 
 	PhysicsComponent* physicsComponent = owner->GetComponent<PhysicsComponent>();

@@ -46,4 +46,13 @@ private:
 	int score = 0;
 	float stateTimer = 0;
 	float spawnTimer = 0;
+
+	std::vector<nc::Vector2> spawnLocations{
+		{100, 100},
+		{200, 420},
+		{100, 540},
+		{668, 50},
+		{568, 420},
+		{668, 540}
+	};
 };
