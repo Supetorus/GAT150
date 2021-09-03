@@ -155,21 +155,18 @@ void Game::Level()
 		spawnTimer = nc::RandomRange(2, 4);
 
 		auto coin = nc::ObjectFactory::Instance().Create<nc::Actor>("Coin");
-		//coin->transform.position = { nc::RandomRangeInt(100, 700), 100 };
 		coin->transform.position = spawnLocations[nc::RandomRangeInt(0, spawnLocations.size()-1)];
 		scene->AddActor(std::move(coin));
 	}
 	
-	
 	//auto enemy = nc::ObjectFactory::Instance().Create<nc::Actor>("Enemy");
-	//enemy->transform.position = { 50, 50 };
+	//enemy->transform.position = spawnLocations[nc::RandomRangeInt(0, spawnLocations.size() - 1)];
 	//scene->AddActor(std::move(enemy));
-
 
 	if (!scene->FindActor("Enemy"))
 	{
 		auto enemy = nc::ObjectFactory::Instance().Create<nc::Actor>("Enemy");
-		enemy->transform.position = { 50, 50 };
+		enemy->transform.position = spawnLocations[nc::RandomRangeInt(0, spawnLocations.size() - 1)];
 		scene->AddActor(std::move(enemy));
 	}
 }

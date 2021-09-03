@@ -6,6 +6,11 @@ using namespace nc;
 
 
 
+EnemyComponent::~EnemyComponent()
+{
+	owner->scene->engine->Get<EventSystem>()->Unsubscribe("collision_enter", owner);
+}
+
 void EnemyComponent::Create()
 {
 	owner->scene->engine->Get<EventSystem>()->Subscribe("collision_enter",
